@@ -386,20 +386,25 @@ function ic(name, color, size) {
   }
 
   .hero-stats {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 14px;
     padding: 0.8rem 1.5rem;
-    margin-bottom: 0.5rem;
+    margin: 0 auto 0.5rem;
+    width: fit-content;
+    max-width: 100%;
   }
   .hero-stat {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0 1.2rem;
+    flex: 1;
+    min-width: 0;
   }
   .hero-stat-num {
     font-size: 1.4rem;
@@ -418,6 +423,7 @@ function ic(name, color, size) {
     width: 1px;
     height: 32px;
     background: rgba(255,255,255,0.12);
+    flex-shrink: 0;
   }
 
   /* TABS */
@@ -555,6 +561,15 @@ function ic(name, color, size) {
     nav { height: 52px; padding: 0 0.8rem; }
     .hero h1 { font-size: 1.6rem; }
     .hero p { font-size: 0.88rem; }
+    .hero-stats {
+      width: calc(100% - 2rem);
+      padding: 0.7rem 0.5rem;
+      border-radius: 12px;
+      box-sizing: border-box;
+    }
+    .hero-stat { padding: 0 0.5rem; }
+    .hero-stat-num { font-size: 1.15rem; }
+    .hero-stat-lbl { font-size: 0.62rem; white-space: normal; text-align: center; }
     .tab-btn { font-size: 0.72rem; padding: 7px 6px; gap: 3px; }
     .card { padding: 1rem; border-radius: 12px; }
     .card-title { font-size: 0.95rem; margin-bottom: 0.9rem; }
@@ -578,6 +593,10 @@ function ic(name, color, size) {
   @media(max-width:380px) {
     .tab-btn { font-size: 0.65rem; padding: 6px 4px; }
     .hero h1 { font-size: 1.4rem; }
+    .hero-stats { padding: 0.6rem 0.3rem; }
+    .hero-stat { padding: 0 0.3rem; }
+    .hero-stat-num { font-size: 1rem; }
+    .hero-stat-lbl { font-size: 0.58rem; }
     main { padding: 0.8rem 0.8rem 5rem; overflow-x: hidden; }
   }
 
