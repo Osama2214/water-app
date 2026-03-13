@@ -1205,9 +1205,131 @@ function ic(name, color, size) {
   }
   .quiz-fb-correct { background: rgba(6,214,160,0.08); border-color: rgba(6,214,160,0.25); color: var(--text-dark); }
   .quiz-fb-wrong   { background: rgba(239,71,111,0.08); border-color: rgba(239,71,111,0.25); color: var(--text-dark); }
+
+  /* ── SPLASH SCREEN ── */
+  #splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(160deg, #020d18 0%, #041420 50%, #051c25 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.8rem, 3vw, 1.5rem);
+    padding: 2rem;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #splash.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .splash-icon {
+    width: clamp(70px, 18vw, 100px);
+    height: clamp(70px, 18vw, 100px);
+    background: linear-gradient(135deg, var(--cyan), var(--blue-light));
+    border-radius: clamp(18px, 4vw, 26px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(2rem, 6vw, 3rem);
+    box-shadow: 0 0 40px rgba(0,180,216,0.4), 0 0 80px rgba(0,180,216,0.15);
+    animation: splashPulse 1.8s ease-in-out infinite;
+  }
+
+  .splash-title {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.02em;
+    animation: splashFadeUp 0.6s ease both;
+    animation-delay: 0.15s;
+    opacity: 0;
+    text-align: center;
+  }
+
+  .splash-subtitle {
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(0.78rem, 2.5vw, 0.95rem);
+    color: var(--cyan-light);
+    animation: splashFadeUp 0.6s ease both;
+    animation-delay: 0.3s;
+    opacity: 0;
+    text-align: center;
+  }
+
+  .splash-bar-wrap {
+    width: clamp(120px, 40vw, 180px);
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
+    overflow: hidden;
+    animation: splashFadeUp 0.6s ease both;
+    animation-delay: 0.45s;
+    opacity: 0;
+  }
+  .splash-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--cyan), var(--blue-light));
+    border-radius: 99px;
+    animation: splashLoad 1.8s ease forwards;
+    animation-delay: 0.45s;
+  }
+
+  /* موجة مياه في الخلفية */
+  .splash-waves {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: clamp(100px, 20vh, 200px);
+    opacity: 0.1;
+    pointer-events: none;
+  }
+
+  /* radial glow في المنتصف */
+  #splash::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(0,180,216,0.12) 0%, transparent 65%),
+      radial-gradient(ellipse at 20% 80%, rgba(45,125,210,0.08) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  @keyframes splashPulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(0,180,216,0.35); transform: scale(1); }
+    50%       { box-shadow: 0 0 55px rgba(0,180,216,0.6); transform: scale(1.06); }
+  }
+  @keyframes splashFadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes splashLoad {
+    0%   { width: 0%; }
+    70%  { width: 85%; }
+    100% { width: 100%; }
+  }
+
 </style>
 </head>
 <body>
+
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <svg class="splash-waves" viewBox="0 0 1440 180" preserveAspectRatio="none">
+    <path fill="#00b4d8" d="M0,80 C360,160 1080,0 1440,80 L1440,180 L0,180 Z"/>
+    <path fill="#2d7dd2" opacity="0.5" d="M0,120 C480,40 960,160 1440,100 L1440,180 L0,180 Z"/>
+  </svg>
+  <div class="splash-icon">💧</div>
+  <div class="splash-title">ترشيد المياه</div>
+  <div class="splash-subtitle">قطرة اليوم .. حياة الغد</div>
+  <div class="splash-bar-wrap">
+    <div class="splash-bar"></div>
+  </div>
+</div>
 
 <svg class="wave-bg" viewBox="0 0 1440 200" preserveAspectRatio="none">
   <path fill="white" d="M0,100 C360,200 1080,0 1440,100 L1440,200 L0,200 Z"/>
@@ -2701,6 +2823,16 @@ window.addEventListener('load', () => {
     }, 300);
   }
 });
+
+// ── SPLASH ──
+(function() {
+  const splash = document.getElementById('splash');
+  setTimeout(() => {
+    splash.classList.add('hide');
+    setTimeout(() => { splash.style.display = 'none'; }, 600);
+  }, 2000);
+})();
+
 </script>
 </body>
 </html>
