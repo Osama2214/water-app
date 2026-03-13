@@ -654,20 +654,19 @@ function ic(name, color, size) {
     width: 22px !important; 
     height: 22px !important; 
   }
-  .mobile-nav-btn:hover, .mobile-nav-btn.active {
-    color: var(--cyan);
-    background: rgba(0,180,216,0.1);
+  .mobile-nav-btn:hover {
+    color: rgba(255,255,255,0.9);
+    background: none;
   }
 
   .mobile-nav-btn.active {
-    color: #fff;
-    background: linear-gradient(135deg, var(--cyan), var(--blue-light));
-    border-radius: 10px;
-    box-shadow: 0 3px 12px rgba(0,180,216,0.35);
+    color: var(--cyan);
+    background: none;
+    box-shadow: none;
   }
 
   .mobile-nav-btn.active .mnav-icon svg {
-    stroke: #fff;
+    stroke: var(--cyan);
   }
 
   /* Hamburger (hidden on desktop) */
