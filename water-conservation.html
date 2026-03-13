@@ -1,0 +1,2641 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ترشيد المياه - حياة أفضل</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script>
+// Inline SVG icon system — no external dependency needed
+const ICONS = {
+  droplets: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>`,
+  'layout-dashboard': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>`,
+  calculator: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="8" x2="8" y1="10" y2="10"/><line x1="12" x2="12" y1="10" y2="10"/><line x1="16" x2="16" y1="10" y2="10"/><line x1="8" x2="8" y1="14" y2="14"/><line x1="12" x2="12" y1="14" y2="14"/><line x1="16" x2="16" y1="14" y2="14"/><line x1="8" x2="8" y1="18" y2="18"/><line x1="12" x2="12" y1="18" y2="18"/><line x1="16" x2="16" y1="18" y2="18"/></svg>`,
+  lightbulb: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>`,
+  trophy: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>`,
+  globe: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  'trending-down': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>`,
+  target: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`,
+  'bar-chart-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>`,
+  'globe-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3v0a2 2 0 0 1 2 2v0c0 1.1.9 2 2 2v0a2 2 0 0 0 2-2v0c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2v0a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/><circle cx="12" cy="12" r="10"/></svg>`,
+  'trending-up': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`,
+  'shower-head': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 4 2.5 2.5"/><path d="M13.5 6.5a4.95 4.95 0 0 0-7 7"/><path d="M15 5 5 15"/><path d="M14 17v.01"/><path d="M10 16v.01"/><path d="M13 13v.01"/><path d="M16 10v.01"/><path d="M11 20v.01"/><path d="M17 14v.01"/><path d="M20 11v.01"/></svg>`,
+  wave: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>`,
+  utensils: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`,
+  'washing-machine': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3"/><path d="M17 6h.01"/><rect width="18" height="20" x="3" y="2" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M12 18a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5"/></svg>`,
+  sprout: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 1 1.1 4.8c-1.6.1-3.1-.2-4.1-1-1.1-.8-1.8-2-2.1-4.2 2.5-.9 4.3-.5 5.1.4z"/></svg>`,
+  flame: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+  timer: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>`,
+  container: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7.7c0-.6-.4-1.2-.8-1.5l-6.3-3.9a1.72 1.72 0 0 0-1.7 0l-10.3 6c-.5.2-.9.8-.9 1.4v6.6c0 .6.4 1.2.8 1.5l6.3 3.9a1.72 1.72 0 0 0 1.7 0l10.3-6c.5-.3.9-.9.9-1.5Z"/><line x1="2" x2="22" y1="12.5" y2="7.5"/></svg>`,
+  'x-circle': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`,
+  layers: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>`,
+  package: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
+  recycle: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"/><path d="m14 16-3 3 3 3"/><path d="M8.293 13.596 7.196 9.5 3.1 10.598"/><path d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 11.985 3a1.784 1.784 0 0 1 1.546.888l3.943 6.843"/><path d="m13.378 9.633 4.096 1.098 1.097-4.096"/></svg>`,
+  home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  sunrise: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg>`,
+  car: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1l2-3h6l2 3h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2z"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="16.5" cy="17.5" r="1.5"/></svg>`,
+  wrench: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  cpu: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>`,
+  gauge: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>`,
+  'cloud-rain': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></svg>`,
+  'file-bar-chart': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 18v-2"/><path d="M12 18v-4"/><path d="M16 18v-6"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  leaf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>`,
+  'tree-pine': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14"/><path d="m14 10 3 3.3a1 1 0 0 1-.7 1.7H7.7a1 1 0 0 1-.7-1.7L10 10"/><path d="M12 2 7 7.7a1 1 0 0 0 .7 1.7h8.6a1 1 0 0 0 .7-1.7z"/><path d="M12 22v-3"/></svg>`,
+  banknote: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg>`,
+  users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+  thermometer: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>`,
+  'bar-chart-3': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
+  waves: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>`,
+  'alert-triangle': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`,
+  factory: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg>`,
+  'check-circle-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+  'link-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7A5 5 0 0 1 7 7h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><line x1="8" x2="16" y1="12" y2="12"/></svg>`,
+  landmark: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
+  'building-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>`,
+  'book-open': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+  sailboat: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 18H2a4 4 0 0 0 4 4h12a4 4 0 0 0 4-4Z"/><path d="M21 14 10 2 3 14h18Z"/><path d="M10 2v12"/></svg>`,
+  'arrow-left': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>`,
+  map: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>`,
+  'file-text': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>`,
+  heart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`,
+  'alert-octagon': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>`,
+  'graduation-cap': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+  footprints: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.38C4 11.5 2.97 10.43 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.19 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/><path d="M16 17h4"/><path d="M4 13h4"/></svg>`,
+};
+
+function ic(name, color, size) {
+  const svg = ICONS[name] || ICONS['droplets'];
+  const s = size || 18;
+  return svg
+    .replace('<svg ', `<svg width="${s}" height="${s}" style="flex-shrink:0" `)
+    .replace('stroke="currentColor"', `stroke="${color || 'currentColor'}"`);
+}
+</script>
+<style>
+  /* Icon helpers */
+  .ic { display:inline-flex; align-items:center; justify-content:center; }
+  .ic svg { width:18px; height:18px; stroke-width:1.8; }
+  .ic-sm svg { width:15px; height:15px; }
+  .ic-lg svg { width:22px; height:22px; }
+  .ic-xl svg { width:28px; height:28px; }
+  .card-title .icon .ic svg { width:17px; height:17px; stroke:#fff; stroke-width:2; }
+  .stat-icon .ic svg { width:26px; height:26px; stroke-width:1.6; }
+  .tip-icon .ic svg  { width:20px; height:20px; stroke-width:1.8; }
+  .mnav-icon .ic svg { width:20px; height:20px; stroke-width:1.8; }
+  :root {
+    --blue-deep: #0a2540;
+    --blue-mid: #1a4a7a;
+    --blue-light: #2d7dd2;
+    --cyan: #00b4d8;
+    --cyan-light: #90e0ef;
+    --water: #caf0f8;
+    --accent: #f77f00;
+    --accent-light: #ffb347;
+    --green: #06d6a0;
+    --red: #ef476f;
+    --white: #f8faff;
+    --text-dark: #0a2540;
+    --text-muted: #4a6fa5;
+    --card-bg: rgba(255,255,255,0.92);
+    --shadow: 0 8px 32px rgba(10,37,64,0.12);
+    --input-bg: #f8faff;
+    --input-border: #dde4f0;
+    --tip-border: #eef2f8;
+    --chart-border: #eef2f8;
+    --progress-bg: #eef2f8;
+    --challenge-border: #eef2f8;
+  }
+
+  /* ── DARK MODE ── */
+  body.dark {
+    --text-dark: #e8f0fe;
+    --text-muted: #90b4d8;
+    --card-bg: rgba(18,32,58,0.96);
+    --shadow: 0 8px 32px rgba(0,0,0,0.45);
+    --input-bg: #0e1e35;
+    --input-border: #1e3558;
+    --tip-border: #1a2e4a;
+    --chart-border: #1a2e4a;
+    --progress-bg: #1a2e4a;
+    --challenge-border: #1a2e4a;
+  }
+
+  body.dark { background: linear-gradient(135deg, #030a14 0%, #081526 40%, #041018 100%) !important; }
+  body.dark::before {
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(0,180,216,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(45,125,210,0.07) 0%, transparent 60%);
+  }
+
+  body.dark .stat-card,
+  body.dark .challenge-card { background: rgba(12,22,42,0.98); border-color: #1e3558; }
+  body.dark .card { border-color: rgba(0,180,216,0.1); }
+  body.dark nav { background: rgba(2,7,16,0.98); border-bottom-color: rgba(0,180,216,0.12); }
+  body.dark .mobile-nav { background: rgba(2,7,16,0.98); border-top-color: rgba(0,180,216,0.12); }
+  body.dark .tabs { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.05); }
+  body.dark .meter-bg { stroke: #1a2e4a; }
+  body.dark .meter-text { color: #e8f0fe; }
+
+  body.dark .form-group input,
+  body.dark .form-group select,
+  body.dark input[type=number] {
+    background: var(--input-bg); border-color: var(--input-border); color: var(--text-dark);
+  }
+  body.dark .result-box {
+    background: linear-gradient(135deg, rgba(0,180,216,0.07), rgba(45,125,210,0.05));
+    border-color: rgba(0,180,216,0.18);
+  }
+  body.dark .goal-display {
+    background: linear-gradient(135deg, rgba(0,180,216,0.05), rgba(45,125,210,0.04));
+  }
+  body.dark .tip-item { border-bottom-color: var(--tip-border); }
+  body.dark .chart-area { border-bottom-color: var(--chart-border); }
+  body.dark .progress-bar-wrap { background: var(--progress-bg); }
+  body.dark .challenge-card { border-color: var(--challenge-border); }
+
+  body.dark .alert-warning { background: rgba(247,127,0,0.1); border-color: rgba(247,127,0,0.22); }
+  body.dark .alert-success { background: rgba(6,214,160,0.08); border-color: rgba(6,214,160,0.18); }
+  body.dark .alert-info    { background: rgba(45,125,210,0.1); border-color: rgba(45,125,210,0.18); color: #90b4d8; }
+  body.dark .tip-save { background: rgba(6,214,160,0.1); color: #06d6a0; }
+  body.dark .hamburger span { background: rgba(255,255,255,0.7); }
+
+  /* ── DARK MODE: خطوط ونصوص شاملة ── */
+  body.dark .card-title { color: #c8ddf5; }
+  body.dark .challenge-title { color: #e8f0fe; }
+  body.dark .stat-card .stat-label { color: #90b4d8; }
+  body.dark .stat-card .stat-val { color: #5aa8f0; }
+  body.dark .tip-content h4 { color: #e8f0fe; }
+  body.dark .tip-content p { color: #90b4d8; }
+  body.dark .bar-label { color: #90b4d8; }
+  body.dark .chart-legend { color: #90b4d8; }
+  body.dark .challenge-meta { color: #90b4d8; }
+  body.dark .slider-wrap label { color: #90b4d8; }
+  body.dark .goal-display .glbl { color: #90b4d8; }
+  body.dark .goal-display .gval { color: #5aa8f0; }
+  body.dark .meter-text .lbl { color: #90b4d8; }
+  body.dark .meter-text .pct { color: #e8f0fe; }
+
+  /* inline color overrides */
+  body.dark [style*="color:var(--text-dark)"] { color: #e8f0fe !important; }
+  body.dark [style*="color:var(--text-muted)"] { color: #90b4d8 !important; }
+  body.dark [style*="color:var(--blue-deep)"] { color: #c8ddf5 !important; }
+  body.dark [style*="color:var(--blue-light)"] { color: #5aa8f0 !important; }
+  body.dark [style*="color:#0a2540"] { color: #e8f0fe !important; }
+  body.dark [style*="color:#1a4a7a"] { color: #90b4d8 !important; }
+  body.dark [style*="color:#4a6fa5"] { color: #90b4d8 !important; }
+  body.dark [style*="color:#059669"] { color: #06d6a0 !important; }
+  body.dark [style*="color:#be185d"] { color: #ff6b9a !important; }
+  body.dark [style*="color:#c2610b"] { color: #ffb347 !important; }
+
+  /* خلفيات inline */
+  body.dark [style*="background:#f8faff"] { background: #0b1a30 !important; }
+  body.dark [style*="background: #f8faff"] { background: #0b1a30 !important; }
+  body.dark [style*="background:#eef2f8"] { background: #1a2e4a !important; }
+  body.dark [style*="border:1.5px solid #eef2f8"] { border-color: #1e3558 !important; }
+  body.dark [style*="border: 1.5px solid #eef2f8"] { border-color: #1e3558 !important; }
+  body.dark [style*="border-top:1px solid #eef2f8"] { border-top-color: #1a2e4a !important; }
+  body.dark [style*="background:rgba(255,255,255,0.08)"] { background: rgba(255,255,255,0.04) !important; }
+  body.dark [style*="background:rgba(6,214,160,0.08)"] { background: rgba(6,214,160,0.06) !important; }
+  body.dark [style*="background:rgba(0,180,216,0.08)"] { background: rgba(0,180,216,0.06) !important; }
+  body.dark [style*="background:rgba(247,127,0,0.08)"] { background: rgba(247,127,0,0.06) !important; }
+  body.dark [style*="background:rgba(239,71,111,0.06)"] { background: rgba(239,71,111,0.08) !important; }
+  body.dark [style*="background:rgba(247,127,0,0.06)"] { background: rgba(247,127,0,0.07) !important; }
+  body.dark [style*="background:rgba(6,214,160,0.06)"] { background: rgba(6,214,160,0.07) !important; }
+  body.dark [style*="background:rgba(0,180,216,0.1)"] { background: rgba(0,180,216,0.08) !important; }
+  body.dark [style*="background:rgba(6,214,160,0.1)"] { background: rgba(6,214,160,0.08) !important; }
+  body.dark [style*="background:rgba(239,71,111,0.1)"] { background: rgba(239,71,111,0.08) !important; }
+  body.dark [style*="background:rgba(247,127,0,0.1)"] { background: rgba(247,127,0,0.08) !important; }
+  body.dark [style*="background:rgba(45,125,210,0.1)"] { background: rgba(45,125,210,0.08) !important; }
+
+  /* Dark mode toggle */
+  .dark-toggle {
+    background: none;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    width: 42px;
+    height: 24px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+  .dark-toggle::after {
+    content: '☀️';
+    font-size: 14px;
+    position: absolute;
+    top: 50%; right: 4px;
+    transform: translateY(-50%);
+    transition: all 0.3s;
+    line-height: 1;
+  }
+  body.dark .dark-toggle { background: rgba(0,180,216,0.15); border-color: var(--cyan); }
+  body.dark .dark-toggle::after { content: '🌙'; right: auto; left: 4px; }
+
+  /* on desktop hide mobile dark btn */
+  @media(min-width:769px) { .mobile-dark-btn { display: none !important; } }
+
+  /* dark mode icon in mobile nav */
+  .dark-mode-icon { font-size: clamp(13px, 3.2vw, 18px); line-height: 1; display: flex; align-items: center; justify-content: center; }
+  body.dark .dark-mode-icon { content: '🌙'; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #0a2540 0%, #1a4a7a 40%, #0d7080 100%);
+    min-height: 100vh;
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* Animated water background */
+  body::before {
+    content:'';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(0,180,216,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(45,125,210,0.12) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Wave SVG background */
+  .wave-bg {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 200px;
+    z-index: 0;
+    opacity: 0.07;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,37,64,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,180,216,0.2);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cyan);
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--cyan), var(--blue-light));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  nav ul li a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+
+  nav ul li a:hover, nav ul li a.active {
+    color: var(--cyan);
+    background: rgba(0,180,216,0.12);
+  }
+
+  /* MAIN */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 3rem 2rem 2.5rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,180,216,0.12);
+    border: 1px solid rgba(0,180,216,0.3);
+    color: var(--cyan);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.03em;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(90deg, var(--cyan), #48cae4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-span2 {
+    background: linear-gradient(90deg, var(--accent-light), #ffd166) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+  }
+
+  .hero p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    max-width: 460px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+  }
+
+  .hero-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 0.8rem 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1.2rem;
+  }
+  .hero-stat-num {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--cyan);
+    line-height: 1;
+  }
+  .hero-stat-lbl {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 600;
+    margin-top: 3px;
+    white-space: nowrap;
+  }
+  .hero-stat-sep {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.12);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    background: rgba(255,255,255,0.07);
+    padding: 5px;
+    border-radius: 14px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    flex-wrap: nowrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* الـ slider اللي بيتحرك تحت الزرار الـ active */
+  .tabs-slider {
+    position: absolute;
+    top: 0; bottom: 0;
+    margin: 5px 0;
+    height: calc(100% - 10px);
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--cyan), var(--blue-light));
+    box-shadow: 0 4px 16px rgba(0,180,216,0.35);
+    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { color: rgba(255,255,255,0.9); }
+  .tab-btn.active {
+    color: #fff;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    padding: 1.8rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.6);
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--blue-deep);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title .icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    background: linear-gradient(135deg, var(--cyan), var(--blue-light));
+    color: #fff;
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+
+  /* ── RESPONSIVE BREAKPOINTS ── */
+
+  /* Large screens (1200px+) */
+  @media(min-width:1200px) {
+    main { padding: 2.5rem 2rem 5rem; }
+    .hero { padding: 4rem 1rem 3rem; }
+    .card { padding: 2rem; }
+  }
+
+  /* Tablet (768px - 1024px) */
+  @media(max-width:1024px) {
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    main { padding: 1.5rem 1.2rem 3rem; }
+  }
+
+  /* Small tablet / large mobile (500px - 768px) */
+  @media(max-width:768px) {
+    nav { padding: 0 1rem; height: 56px; }
+    nav ul { display: none; }
+    .logo { font-size: 1.1rem; }
+    .logo-icon { width: 30px; height: 30px; font-size: 0.95rem; }
+    .hamburger { display: flex; }
+    main { padding: 1rem 1rem 5rem; overflow-x: hidden; }
+    .hero { padding: 2rem 1rem 1.5rem; }
+    .hero p { font-size: 0.95rem; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .tabs { gap: 0.3rem; padding: 5px; }
+    .tab-btn { min-width: 0; padding: 8px 10px; font-size: 0.78rem; flex: 1 1 calc(50% - 0.3rem); }
+    .card { padding: 1.2rem; border-radius: 14px; margin-bottom: 1rem; }
+    .card-title { font-size: 1rem; }
+    .stat-card { padding: 1rem; }
+    .stat-card .stat-val { font-size: 1.6rem; }
+    .goal-section { flex-direction: column; }
+    .goal-display { width: 100%; }
+  }
+
+  /* Mobile (max 500px) */
+  @media(max-width:500px) {
+    nav { height: 52px; padding: 0 0.8rem; }
+    .hero h1 { font-size: 1.6rem; }
+    .hero p { font-size: 0.88rem; }
+    .tab-btn { font-size: 0.72rem; padding: 7px 6px; gap: 3px; }
+    .card { padding: 1rem; border-radius: 12px; }
+    .card-title { font-size: 0.95rem; margin-bottom: 0.9rem; }
+    .card-title .icon { width: 28px; height: 28px; font-size: 0.85rem; }
+    .stat-card .stat-val { font-size: 1.4rem; }
+    .stat-card .stat-label { font-size: 0.75rem; }
+    .tip-icon { width: 36px; height: 36px; min-width: 36px; font-size: 1rem; }
+    .tip-content h4 { font-size: 0.88rem; }
+    .tip-content p { font-size: 0.78rem; }
+    .meter-wrap { width: 130px; height: 130px; }
+    .meter-text .pct { font-size: 1.5rem; }
+    .chart-area { height: 160px; }
+    .challenge-title { font-size: 0.88rem; }
+    .btn { padding: 10px 18px; font-size: 0.88rem; }
+    .result-box .result-number { font-size: 2.2rem; }
+    /* Inline styles overrides for small mobile */
+    .goal-display .gval { font-size: 1.6rem; }
+  }
+
+  /* Very small (360px) */
+  @media(max-width:380px) {
+    .tab-btn { font-size: 0.65rem; padding: 6px 4px; }
+    .hero h1 { font-size: 1.4rem; }
+    main { padding: 0.8rem 0.8rem 5rem; overflow-x: hidden; }
+  }
+
+  /* ── MOBILE BOTTOM NAV ── */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(10,37,64,0.97);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid rgba(0,180,216,0.2);
+    padding: 6px 4px env(safe-area-inset-bottom, 6px);
+  }
+
+  .mobile-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 2px;
+  }
+
+  .mobile-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: 'Cairo', sans-serif;
+    font-size: clamp(0.42rem, 1.5vw, 0.58rem);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 0;
+    border-radius: 10px;
+    transition: all 0.2s;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .mobile-nav-btn .mnav-icon { line-height: 1; display: flex; align-items: center; justify-content: center; }
+  .mobile-nav-btn .mnav-icon svg { 
+    width: clamp(13px, 3.2vw, 19px) !important; 
+    height: clamp(13px, 3.2vw, 19px) !important; 
+  }
+  .mobile-nav-btn:hover, .mobile-nav-btn.active {
+    color: var(--cyan);
+    background: rgba(0,180,216,0.1);
+  }
+
+  /* Hamburger (hidden on desktop) */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    border: none;
+    background: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  @media(max-width:768px) {
+    .mobile-nav { display: block; }
+  }
+  @media(max-width:768px) {
+    .tabs { display: none; }
+    .hamburger { display: flex !important; }
+  }
+
+  /* STAT CARDS */
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.4rem;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,0.6);
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-3px); }
+  .stat-card .stat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+  .stat-card .stat-val {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--blue-light);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-card .stat-label {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  /* FORM */
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #dde4f0;
+    border-radius: 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background: #f8faff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0,180,216,0.12);
+  }
+
+  .btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 11px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--cyan), var(--blue-light));
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0,180,216,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,180,216,0.4);
+  }
+  .btn-accent {
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(247,127,0,0.3);
+  }
+  .btn-accent:hover { transform: translateY(-2px); }
+
+  /* RESULT BOX */
+  .result-box {
+    background: linear-gradient(135deg, rgba(0,180,216,0.1), rgba(45,125,210,0.08));
+    border: 1.5px solid rgba(0,180,216,0.25);
+    border-radius: 14px;
+    padding: 1.4rem;
+    margin-top: 1.2rem;
+    display: none;
+  }
+  .result-box.show { display: block; animation: fadeUp 0.3s ease; }
+  .result-box .result-number {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--blue-light);
+    line-height: 1;
+  }
+  .result-box .result-unit {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  /* WATER METER */
+  .meter-wrap {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 1rem;
+  }
+  .meter-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .meter-bg { fill: none; stroke: #dde4f0; stroke-width: 14; }
+  .meter-fill {
+    fill: none;
+    stroke-width: 14;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s ease, stroke 0.5s;
+  }
+  .meter-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: var(--blue-deep);
+  }
+  .meter-text .pct { font-size: 1.9rem; line-height: 1; }
+  .meter-text .lbl { font-size: 0.72rem; color: var(--text-muted); }
+
+  /* TIPS */
+  .tip-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eef2f8;
+    transition: all 0.2s;
+  }
+  .tip-item:last-child { border-bottom: none; }
+  .tip-item:hover { padding-right: 6px; }
+  .tip-icon {
+    width: 44px; height: 44px; min-width: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .tip-content h4 {
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 3px;
+  }
+  .tip-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+  .tip-save {
+    margin-top: 5px;
+    display: inline-block;
+    background: rgba(6,214,160,0.12);
+    color: #059669;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+  }
+
+  /* CHART */
+  .chart-area {
+    position: relative;
+    height: 220px;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 1rem 0 0.5rem;
+    border-bottom: 2px solid #eef2f8;
+    margin-bottom: 0.8rem;
+  }
+  .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .bar-wrap { width: 100%; display: flex; gap: 3px; align-items: flex-end; justify-content: center; flex: 1; }
+  .bar {
+    flex: 1;
+    border-radius: 6px 6px 0 0;
+    transition: height 1s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    max-width: 28px;
+    cursor: pointer;
+  }
+  .bar:hover { filter: brightness(1.1); }
+  .bar-label { font-size: clamp(0.55rem, 1.2vw, 0.75rem); color: var(--text-muted); font-weight: 600; text-align:center; white-space:nowrap; }
+  .chart-legend {
+    display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+    font-size: 0.82rem; font-weight: 600; color: var(--text-muted);
+  }
+  .legend-dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-left: 5px;
+  }
+
+  /* CHALLENGE */
+  .challenge-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.4rem;
+    border: 2px solid #eef2f8;
+    transition: all 0.25s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .challenge-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 4px;
+    height: 100%;
+    background: #dde4f0;
+    transition: background 0.3s;
+  }
+  .challenge-card.active-challenge { border-color: var(--cyan); }
+  .challenge-card.active-challenge::before { background: var(--cyan); }
+  .challenge-card.done-challenge { border-color: var(--green); }
+  .challenge-card.done-challenge::before { background: var(--green); }
+
+  .challenge-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.7rem;
+  }
+  .challenge-title { font-weight: 700; font-size: 0.97rem; color: var(--text-dark); }
+  .challenge-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .badge-easy { background: rgba(6,214,160,0.12); color: #059669; }
+  .badge-medium { background: rgba(247,127,0,0.12); color: #c2610b; }
+  .badge-hard { background: rgba(239,71,111,0.12); color: #be185d; }
+
+  .progress-bar-wrap {
+    background: #eef2f8;
+    border-radius: 20px;
+    height: 8px;
+    margin-top: 0.8rem;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--cyan), var(--blue-light));
+    transition: width 0.8s ease;
+  }
+  .challenge-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  /* GOAL TRACKER */
+  .goal-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .goal-input-wrap { flex: 1; min-width: 180px; }
+  .goal-display {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(0,180,216,0.08), rgba(45,125,210,0.06));
+    border: 1.5px solid rgba(0,180,216,0.2);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    min-width: 160px;
+  }
+  .goal-display .gval { font-size: 2rem; font-weight: 900; color: var(--blue-light); }
+  .goal-display .glbl { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
+
+  /* SLIDER */
+  .slider-wrap { margin-bottom: 1rem; }
+  .slider-wrap label { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 6px; }
+  input[type=range] {
+    width: 100%;
+    accent-color: var(--cyan);
+    height: 6px;
+    cursor: pointer;
+  }
+
+  /* ── SITE LINK CARDS ── */
+  .site-link-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.9rem;
+    border-radius: 12px;
+    background: #f8faff;
+    border: 1.5px solid #eef2f8;
+    transition: all 0.2s;
+  }
+  body.dark .site-link-card {
+    background: #0b1a30;
+    border-color: #1e3558;
+  }
+  .site-link-cyan:hover  { border-color: #00b4d8 !important; background: rgba(0,180,216,0.07) !important; }
+  .site-link-orange:hover { border-color: #f77f00 !important; background: rgba(247,127,0,0.07) !important; }
+  .site-link-green:hover  { border-color: #06d6a0 !important; background: rgba(6,214,160,0.07) !important; }
+  body.dark .site-link-cyan:hover  { background: rgba(0,180,216,0.1) !important; }
+  body.dark .site-link-orange:hover { background: rgba(247,127,0,0.1) !important; }
+  body.dark .site-link-green:hover  { background: rgba(6,214,160,0.1) !important; }
+
+  /* ── WATER RIPPLE TAB ANIMATION ── */
+  .tab-btn .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0,180,216,0.35);
+    transform: scale(0);
+    animation: rippleWave 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    pointer-events: none;
+  }
+  @keyframes rippleWave {
+    0%   { transform: scale(0); opacity: 0.8; }
+    40%  { transform: scale(2.5); opacity: 0.4; }
+    100% { transform: scale(5); opacity: 0; }
+  }
+
+
+
+  /* tab switching water slide */
+  .section {
+    animation: none;
+  }
+  .section.active {
+    animation: waterSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+  @keyframes waterSlideIn {
+    0%   { opacity: 0; transform: translateY(12px) scaleY(0.97); filter: blur(2px); }
+    60%  { filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0) scaleY(1); }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(18px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .animate-1 { animation: fadeUp 0.5s 0.1s both; }
+  .animate-2 { animation: fadeUp 0.5s 0.2s both; }
+  .animate-3 { animation: fadeUp 0.5s 0.3s both; }
+  .animate-4 { animation: fadeUp 0.5s 0.4s both; }
+
+  /* WATER WAVE ANIMATION */
+  @keyframes wave { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-20px)} }
+
+  /* BADGE / ALERT */
+  .alert {
+    padding: 0.9rem 1.1rem;
+    border-radius: 11px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.8rem;
+  }
+  .alert-warning { background: rgba(247,127,0,0.1); color: #c2610b; border: 1px solid rgba(247,127,0,0.2); }
+  .alert-success { background: rgba(6,214,160,0.1); color: #059669; border: 1px solid rgba(6,214,160,0.25); }
+  .alert-info    { background: rgba(45,125,210,0.1); color: #1a4a7a; border: 1px solid rgba(45,125,210,0.2); }
+
+  /* ── DRAWER DARK BTN ── */
+  .drawer-dark-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(0,180,216,0.2);
+    background: rgba(0,180,216,0.08);
+    color: var(--cyan);
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .drawer-dark-btn:hover { background: rgba(0,180,216,0.15); }
+  .drawer-dark-btn span:first-child { font-size: 1.2rem; }
+
+  /* ── DRAWER ── */
+  .drawer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 400;
+    backdrop-filter: blur(2px);
+  }
+  .drawer-overlay.open { display: block; }
+
+  .drawer {
+    position: fixed;
+    top: 0; right: -280px;
+    width: 270px;
+    height: 100vh;
+    z-index: 500;
+    background: rgba(10,37,64,0.98);
+    backdrop-filter: blur(16px);
+    border-left: 1px solid rgba(0,180,216,0.2);
+    padding: 1.2rem;
+    transition: right 0.3s cubic-bezier(.4,0,.2,1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .drawer.open { right: 0; }
+  body.dark .drawer { background: rgba(2,7,16,0.99); }
+
+  .drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,180,216,0.15);
+    margin-bottom: 0.5rem;
+  }
+
+  .drawer-links { display: flex; flex-direction: column; gap: 0.3rem; }
+
+  .drawer-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 12px 14px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    text-align: right;
+    width: 100%;
+  }
+  .drawer-btn:hover { background: rgba(0,180,216,0.1); color: #fff; }
+  .drawer-btn.active {
+    background: linear-gradient(135deg, rgba(0,180,216,0.2), rgba(45,125,210,0.15));
+    color: var(--cyan);
+    border: 1px solid rgba(0,180,216,0.25);
+  }
+
+  /* ── QUIZ ── */
+  .quiz-opt-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--tip-border);
+    border-radius: 12px;
+    background: var(--card-bg);
+    color: var(--text-dark);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.2s;
+  }
+  .quiz-opt-btn:hover:not(:disabled) {
+    border-color: var(--cyan);
+    background: rgba(0,180,216,0.06);
+  }
+  .quiz-opt-letter {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(0,180,216,0.1);
+    color: var(--cyan);
+    font-weight: 900;
+    font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .quiz-opt-btn.quiz-correct {
+    border-color: var(--green);
+    background: rgba(6,214,160,0.1);
+  }
+  .quiz-opt-btn.quiz-correct .quiz-opt-letter {
+    background: var(--green); color: #fff;
+  }
+  .quiz-opt-btn.quiz-wrong {
+    border-color: var(--red);
+    background: rgba(239,71,111,0.1);
+  }
+  .quiz-opt-btn.quiz-wrong .quiz-opt-letter {
+    background: var(--red); color: #fff;
+  }
+  .quiz-feedback-box {
+    padding: 0.9rem 1.1rem;
+    border-radius: 11px;
+    font-size: 0.88rem;
+    border: 1px solid;
+  }
+  .quiz-fb-correct { background: rgba(6,214,160,0.08); border-color: rgba(6,214,160,0.25); color: var(--text-dark); }
+  .quiz-fb-wrong   { background: rgba(239,71,111,0.08); border-color: rgba(239,71,111,0.25); color: var(--text-dark); }
+</style>
+</head>
+<body>
+
+<svg class="wave-bg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+  <path fill="white" d="M0,100 C360,200 1080,0 1440,100 L1440,200 L0,200 Z"/>
+</svg>
+
+<nav>
+  <a href="#" class="logo" onclick="showTab('dashboard',null);document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelector('.tab-btn').classList.add('active');document.querySelectorAll('.mobile-nav-btn').forEach(b=>b.classList.remove('active'));document.querySelector('.mobile-nav-btn').classList.add('active')">
+    <div class="logo-icon" style="background:none;padding:0;overflow:hidden">
+      <svg height="36px" width="36px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496.2 496.2">
+        <path style="fill:#32a2bd;" d="M496.2,248.1C496.2,111.1,385.1,0,248.1,0S0,111.1,0,248.1s111.1,248.1,248.1,248.1S496.2,385.1,496.2,248.1z"/>
+        <path style="fill:#91C5CE;" d="M265.3,112c-11.9-18.8-17.2-37.7-17.2-37.7l0,0c0,0-5.3,18.9-17.2,37.7c-14.6,29.5-38,45-38,82.1c0,31.9,23.3,57.8,55.2,57.8l0,0c31.9,0,55.2-25.9,55.2-57.8C303.3,157.1,279.9,141.5,265.3,112z"/>
+        <path style="fill:#B9E4EA;" d="M265.3,112c-11.9-18.8-17.2-37.7-17.2-37.7s-31.9,177.6,0,177.6l0,0c31.9,0,55.2-25.9,55.2-57.8C303.3,157.1,279.9,141.5,265.3,112z"/>
+        <path style="fill:#F2F7F7;" d="M251.3,242.5L251.3,242.5c25,0,43.2-20.2,43.2-45.2C294.5,168.2,226.3,242.5,251.3,242.5z"/>
+        <path style="fill:#E5AD88;" d="M285.1,297.1c0,0-20.3,4.6-33,4.2c-6.5-0.2-19.5,3.5-32.7,8.3c-12.7,4.7-25.5,5.7-26.8,9.8c-3.7,11.3,15.2,14.6,17.4,14.7c18.3,0.8,40.8-3,40.8-3l25.1,1.3L285.1,297.1z"/>
+        <path style="fill:#E5AD88;" d="M237,377.5c6.6-1.8,1.1-18.7-0.7-25.2l0,0c-1.8-6.5-8-8.2-8-8.2l-41.3,2.7l-58.1-6.7c-5.2,0.1-11.5-0.2-12.8,6c-1.8,8.3,8.5,9.9,19.1,12.6c10.5,2.6,51.3,10,51.3,10L237,377.5z"/>
+        <path style="fill:#E5AD88;" d="M490.7,196c-67,49.4-143.1,106.1-147.5,103.7c-6.3-3.4-44.2-7.3-63.2-1.8l-17.2,32.4l-17.2,8.7c-7,2.3-22.4,6.3-22.4,6.3l4,30.6c9.9,2.1,14.2,2.2,25.1,0.3c14.7-2.5,31.7-2.4,77.9-10.8c0,0,92.2-31.1,158.6-57.2c4.8-19.3,7.4-39.4,7.4-60.1C496.2,230.2,494.3,212.8,490.7,196z"/>
+      </svg>
+    </div>
+    ترشيد المياه
+  </a>
+
+  <div style="display:flex;align-items:center;gap:8px">
+    <button class="dark-toggle" onclick="toggleDark()" aria-label="تبديل الوضع"></button>
+    <button class="hamburger" onclick="toggleMobileMenu()" aria-label="القائمة">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="mobile-drawer">
+  <div class="drawer-header">
+    <div style="color:var(--cyan);font-weight:700;font-size:1.1rem">القائمة</div>
+    <button onclick="closeDrawer()" style="background:none;border:none;color:rgba(255,255,255,0.6);font-size:1.4rem;cursor:pointer;line-height:1">✕</button>
+  </div>
+  <div class="drawer-links">
+    <button class="drawer-btn active" onclick="showTabDrawer('dashboard',this)">
+      <span class="ic"><i data-lucide="layout-dashboard" style="stroke:#00b4d8;width:20px;height:20px"></i></span> لوحة البيانات
+    </button>
+    <button class="drawer-btn" onclick="showTabDrawer('calc',this)">
+      <span class="ic"><i data-lucide="calculator" style="stroke:#00b4d8;width:20px;height:20px"></i></span> حاسبة الاستهلاك
+    </button>
+    <button class="drawer-btn" onclick="showTabDrawer('tips',this)">
+      <span class="ic"><i data-lucide="lightbulb" style="stroke:#00b4d8;width:20px;height:20px"></i></span> نصائح الترشيد
+    </button>
+    <button class="drawer-btn" onclick="showTabDrawer('challenges',this)">
+      <span class="ic"><i data-lucide="trophy" style="stroke:#00b4d8;width:20px;height:20px"></i></span> التحديات
+    </button>
+    <button class="drawer-btn" onclick="showTabDrawer('facts',this)">
+      <span class="ic"><i data-lucide="globe" style="stroke:#00b4d8;width:20px;height:20px"></i></span> حقائق ومواقع
+    </button>
+    <button class="drawer-btn" onclick="showTabDrawer('quiz',this)">
+      <span class="ic"><i data-lucide="graduation-cap" style="stroke:#00b4d8;width:20px;height:20px"></i></span> اختبار المياه
+    </button>
+  </div>
+
+  <div style="margin-top:auto;padding-top:1rem;border-top:1px solid rgba(0,180,216,0.15)">
+    <button onclick="toggleDark()" class="drawer-dark-btn" id="drawer-dark-btn">
+      <span id="drawer-dark-icon">☀️</span>
+      <span id="drawer-dark-label">الوضع الداكن</span>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mobile-nav-btn active" onclick="showTabMobile('dashboard',this)">
+      <span class="mnav-icon ic"><i data-lucide="layout-dashboard"></i></span>الرئيسية
+    </button>
+    <button class="mobile-nav-btn" onclick="showTabMobile('calc',this)">
+      <span class="mnav-icon ic"><i data-lucide="calculator"></i></span>الحاسبة
+    </button>
+    <button class="mobile-nav-btn" onclick="showTabMobile('tips',this)">
+      <span class="mnav-icon ic"><i data-lucide="lightbulb"></i></span>النصائح
+    </button>
+    <button class="mobile-nav-btn" onclick="showTabMobile('challenges',this)">
+      <span class="mnav-icon ic"><i data-lucide="trophy"></i></span>التحديات
+    </button>
+    <button class="mobile-nav-btn" onclick="showTabMobile('facts',this)">
+      <span class="mnav-icon ic"><i data-lucide="globe"></i></span>حقائق
+    </button>
+    <button class="mobile-nav-btn" onclick="showTabMobile('quiz',this)">
+      <span class="mnav-icon ic"><i data-lucide="graduation-cap"></i></span>اختبار
+    </button>
+
+  </div>
+</nav>
+
+<main>
+  <div class="hero animate-1">
+    <div class="hero-badge">💧 ترشيد المياه</div>
+    <h1>قطرة <span>اليوم</span><br>حياة <span class="hero-span2">الغد</span></h1>
+    <p>تتبّع استهلاكك، تعلّم كيف تترشد، وانضم لتحديات تجعلك جزءاً من الحل</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-num">200</span><span class="hero-stat-lbl">لتر متوسط يومي</span></div>
+      <div class="hero-stat-sep"></div>
+      <div class="hero-stat"><span class="hero-stat-num">30%</span><span class="hero-stat-lbl">يمكن توفيره بسهولة</span></div>
+      <div class="hero-stat-sep"></div>
+      <div class="hero-stat"><span class="hero-stat-num">2.2B</span><span class="hero-stat-lbl">بلا مياه نظيفة</span></div>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs-bar">
+    <div class="tabs-slider" id="tabs-slider"></div>
+    <button class="tab-btn active" onclick="showTab('dashboard',this)"><span class="ic ic-sm"><i data-lucide="layout-dashboard"></i></span> لوحة البيانات</button>
+    <button class="tab-btn" onclick="showTab('calc',this)"><span class="ic ic-sm"><i data-lucide="calculator"></i></span> حاسبة الاستهلاك</button>
+    <button class="tab-btn" onclick="showTab('tips',this)"><span class="ic ic-sm"><i data-lucide="lightbulb"></i></span> نصائح الترشيد</button>
+    <button class="tab-btn" onclick="showTab('challenges',this)"><span class="ic ic-sm"><i data-lucide="trophy"></i></span> التحديات</button>
+    <button class="tab-btn" onclick="showTab('facts',this)"><span class="ic ic-sm"><i data-lucide="globe"></i></span> حقائق ومواقع</button>
+    <button class="tab-btn" onclick="showTab('quiz',this)"><span class="ic ic-sm"><i data-lucide="graduation-cap"></i></span> اختبار المياه</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="section active" id="sec-dashboard">
+    <div class="grid-3 animate-2" style="margin-bottom:1.5rem">
+      <div class="stat-card">
+        <div class="stat-icon ic"><i data-lucide="droplets" style="stroke:#00b4d8"></i></div>
+        <div class="stat-val" id="today-usage">148</div>
+        <div class="stat-label">لتر استُهلك اليوم</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon ic"><i data-lucide="trending-down" style="stroke:#06d6a0"></i></div>
+        <div class="stat-val" style="color:var(--green)" id="saved-amount">32</div>
+        <div class="stat-label">لتر وُفّر هذا الأسبوع</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon ic"><i data-lucide="target" style="stroke:#f77f00"></i></div>
+        <div class="stat-val" style="color:var(--accent)" id="goal-pct">74</div>
+        <div class="stat-label">% من الهدف الشهري</div>
+      </div>
+    </div>
+
+    <div class="grid-2 animate-3">
+      <div class="card">
+        <div class="card-title">
+          <div class="icon"><span class="ic"><i data-lucide="droplets"></i></span></div>
+          استهلاكي اليوم
+        </div>
+        <div class="meter-wrap">
+          <svg class="meter-svg" viewBox="0 0 160 160">
+            <circle class="meter-bg" cx="80" cy="80" r="64"/>
+            <circle class="meter-fill" id="meter-fill" cx="80" cy="80" r="64"
+              stroke="url(#meter-grad)"
+              stroke-dasharray="402"
+              stroke-dashoffset="150"/>
+            <defs>
+              <linearGradient id="meter-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#00b4d8"/>
+                <stop offset="100%" stop-color="#2d7dd2"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="meter-text">
+            <span class="pct" id="meter-pct">63%</span>
+            <span class="lbl">من الهدف</span>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:8px">أدخل استهلاك اليوم (لتر)</div>
+          <div style="display:flex;gap:8px;max-width:220px;margin:0 auto">
+            <input type="number" id="daily-input" placeholder="مثال: 120" style="flex:1;padding:8px 12px;border:1.5px solid #dde4f0;border-radius:8px;font-family:Cairo,sans-serif;font-size:0.9rem;outline:none">
+            <button class="btn btn-primary" style="padding:8px 14px;font-size:0.85rem" onclick="updateMeter()">تحديث</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <div class="icon"><span class="ic"><i data-lucide="bar-chart-2"></i></span></div>
+          استهلاك هذا الأسبوع
+        </div>
+        <div class="chart-area" id="weekly-chart"></div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#00b4d8"></span>استهلاكك</span>
+          <span><span class="legend-dot" style="background:#eef2f8;border:1.5px solid #c8d8f0"></span>المتوسط العام</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card animate-4">
+      <div class="card-title">
+        <div class="icon"><span class="ic"><i data-lucide="globe-2"></i></span></div>
+        المقارنة الشهرية - أنت مقابل المتوسط
+      </div>
+      <div class="chart-area" id="monthly-chart" style="height:160px"></div>
+      <div class="chart-legend" style="margin-top:0.5rem">
+        <span><span class="legend-dot" style="background:#2d7dd2"></span>استهلاكك</span>
+        <span><span class="legend-dot" style="background:#f77f00"></span>المتوسط الوطني</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="section" id="sec-calc">
+    <div class="grid-2">
+      <div class="card animate-1">
+        <div class="card-title">
+          <div class="icon"><span class="ic"><i data-lucide="calculator"></i></span></div>
+          حاسبة الاستهلاك اليومي
+        </div>
+
+        <div class="slider-wrap">
+          <label><span class="ic ic-sm" style="margin-left:5px"><i data-lucide="shower-head" style="stroke:var(--cyan)"></i></span> عدد مرات الاستحمام <span id="shower-val">1</span></label>
+          <input type="range" min="0" max="4" value="1" id="shower-sl" oninput="document.getElementById('shower-val').textContent=this.value;calcTotal()">
+        </div>
+        <div class="slider-wrap">
+          <label><span class="ic ic-sm" style="margin-left:5px"><i data-lucide="wave" style="stroke:var(--blue-light)"></i></span> مرات استخدام الحمام <span id="toilet-val">6</span></label>
+          <input type="range" min="0" max="12" value="6" id="toilet-sl" oninput="document.getElementById('toilet-val').textContent=this.value;calcTotal()">
+        </div>
+        <div class="slider-wrap">
+          <label><span class="ic ic-sm" style="margin-left:5px"><i data-lucide="utensils" style="stroke:var(--accent)"></i></span> غسيل الأطباق (دقائق) <span id="dishes-val">5</span></label>
+          <input type="range" min="0" max="30" value="5" id="dishes-sl" oninput="document.getElementById('dishes-val').textContent=this.value;calcTotal()">
+        </div>
+        <div class="slider-wrap">
+          <label><span class="ic ic-sm" style="margin-left:5px"><i data-lucide="washing-machine" style="stroke:var(--text-muted)"></i></span> عدد دورات الغسالة <span id="laundry-val">0</span></label>
+          <input type="range" min="0" max="3" value="0" id="laundry-sl" oninput="document.getElementById('laundry-val').textContent=this.value;calcTotal()">
+        </div>
+        <div class="slider-wrap">
+          <label><span class="ic ic-sm" style="margin-left:5px"><i data-lucide="sprout" style="stroke:var(--green)"></i></span> ري الحديقة (دقائق) <span id="garden-val">0</span></label>
+          <input type="range" min="0" max="60" value="0" id="garden-sl" oninput="document.getElementById('garden-val').textContent=this.value;calcTotal()">
+        </div>
+        <div class="slider-wrap">
+          <label><span class="ic ic-sm" style="margin-left:5px"><i data-lucide="flame" style="stroke:var(--accent-light)"></i></span> الطبخ والشرب (لتر) <span id="drink-val">3</span></label>
+          <input type="range" min="1" max="15" value="3" id="drink-sl" oninput="document.getElementById('drink-val').textContent=this.value;calcTotal()">
+        </div>
+      </div>
+
+      <div class="card animate-2">
+        <div class="card-title">
+          <div class="icon"><span class="ic"><i data-lucide="trending-up"></i></span></div>
+          نتيجة الحساب
+        </div>
+
+        <div style="text-align:center;padding:1rem 0 0.5rem">
+          <div style="font-size:0.88rem;color:var(--text-muted);margin-bottom:4px">استهلاكك اليومي المقدّر</div>
+          <div style="font-size:3.5rem;font-weight:900;color:var(--blue-light);line-height:1" id="calc-total">153</div>
+          <div style="font-size:1rem;color:var(--text-muted);font-weight:600">لتر / يوم</div>
+        </div>
+
+        <div id="calc-alert" class="alert alert-success">
+          ✅ استهلاكك معتدل، يمكنك خفضه بمزيد من الترشيد!
+        </div>
+
+        <div style="margin-top:1.2rem">
+          <div style="font-size:0.88rem;font-weight:700;color:var(--text-dark);margin-bottom:0.8rem">توزيع الاستهلاك</div>
+          <div id="breakdown-list"></div>
+        </div>
+
+        <div style="margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid #eef2f8;display:flex;justify-content:space-between;align-items:center;flex-wrap:gap">
+          <div>
+            <div style="font-size:0.82rem;color:var(--text-muted);font-weight:600">الشهري المتوقع</div>
+            <div style="font-size:1.4rem;font-weight:900;color:var(--blue-deep)" id="monthly-calc">0</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">لتر</div>
+          </div>
+          <div>
+            <div style="font-size:0.82rem;color:var(--text-muted);font-weight:600">التوفير المحتمل</div>
+            <div style="font-size:1.4rem;font-weight:900;color:var(--green)" id="saving-calc">0</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">لتر / شهر</div>
+          </div>
+          <div>
+            <div style="font-size:0.82rem;color:var(--text-muted);font-weight:600">وفّر بدل مالي</div>
+            <div style="font-size:1.4rem;font-weight:900;color:var(--accent)" id="money-calc">0</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">جنيه / شهر</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="section" id="sec-tips">
+    <div class="grid-2">
+      <div class="card animate-1">
+        <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="shower-head"></i></span></div>الحمام والاستحمام</div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(0,180,216,0.1)"><span class="ic"><i data-lucide="timer" style="stroke:#00b4d8"></i></span></div>
+          <div class="tip-content">
+            <h4>قلّل وقت الاستحمام لـ 5 دقائق</h4>
+            <p>الاستحمام لمدة 5 دقائق بدلاً من 10 يوفر الكثير من المياه يومياً</p>
+            <span class="tip-save">يوفر ~40 لتر/يوم</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(6,214,160,0.1)"><span class="ic"><i data-lucide="container" style="stroke:#06d6a0"></i></span></div>
+          <div class="tip-content">
+            <h4>اجمع ماء تبريد الدوش</h4>
+            <p>الماء الذي يسيل قبل الاستحمام استخدمه لري النباتات أو الفرشاة</p>
+            <span class="tip-save">يوفر ~10 لتر/يوم</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(239,71,111,0.1)"><span class="ic"><i data-lucide="x-circle" style="stroke:#ef476f"></i></span></div>
+          <div class="tip-content">
+            <h4>أغلق الحنفية عند غسيل الأسنان</h4>
+            <p>الحنفية المفتوحة تضيع 6 لترات في الدقيقة بدون فائدة</p>
+            <span class="tip-save">يوفر ~12 لتر/يوم</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card animate-2">
+        <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="utensils"></i></span></div>المطبخ والغسيل</div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(247,127,0,0.1)"><span class="ic"><i data-lucide="layers" style="stroke:#f77f00"></i></span></div>
+          <div class="tip-content">
+            <h4>اغسل الأطباق في حوض ممتلئ</h4>
+            <p>بدلاً من ترك المياه تجري، امتلئ الحوض وغسّل كل الأطباق دفعة واحدة</p>
+            <span class="tip-save">يوفر ~30 لتر/مرة</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(45,125,210,0.1)"><span class="ic"><i data-lucide="package" style="stroke:#2d7dd2"></i></span></div>
+          <div class="tip-content">
+            <h4>اجمع الغسيل في حمولة كاملة</h4>
+            <p>الغسالة تستهلك نفس الماء سواء كانت نصف ممتلئة أو ممتلئة</p>
+            <span class="tip-save">يوفر ~70 لتر/دورة</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(6,214,160,0.1)"><span class="ic"><i data-lucide="recycle" style="stroke:#06d6a0"></i></span></div>
+          <div class="tip-content">
+            <h4>استخدم ماء غسيل الخضار للنباتات</h4>
+            <p>ماء نقع الخضروات مفيد للنباتات ويوفر ري مجاني وطبيعي</p>
+            <span class="tip-save">يوفر ~5 لتر/يوم</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card animate-3">
+        <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="home"></i></span></div>خارج المنزل والحديقة</div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(6,214,160,0.1)"><span class="ic"><i data-lucide="sunrise" style="stroke:#06d6a0"></i></span></div>
+          <div class="tip-content">
+            <h4>اسقِ النباتات في الصباح أو المساء</h4>
+            <p>التبخر في الظهر يضيع ضعف كمية الماء مقارنة بالري في الأوقات الباردة</p>
+            <span class="tip-save">يوفر ~50% من ماء الري</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(0,180,216,0.1)"><span class="ic"><i data-lucide="car" style="stroke:#00b4d8"></i></span></div>
+          <div class="tip-content">
+            <h4>استخدم دلو لغسيل السيارة</h4>
+            <p>الخرطوم يصرف 150 لتراً في 10 دقائق، الدلو يكفي بـ 20 لتر فقط</p>
+            <span class="tip-save">يوفر ~130 لتر/مرة</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(247,127,0,0.1)"><span class="ic"><i data-lucide="wrench" style="stroke:#f77f00"></i></span></div>
+          <div class="tip-content">
+            <h4>صلّح الحنفيات المتسربة فوراً</h4>
+            <p>قطرة كل ثانية = 10,000 لتر في السنة! أصلح التسربات فور اكتشافها</p>
+            <span class="tip-save">يوفر ~10,000 لتر/سنة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card animate-4">
+        <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="cpu"></i></span></div>تقنيات الترشيد الذكية</div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(45,125,210,0.1)"><span class="ic"><i data-lucide="gauge" style="stroke:#2d7dd2"></i></span></div>
+          <div class="tip-content">
+            <h4>ركّب موفرات الماء على الحنفيات</h4>
+            <p>أجهزة aerator تخلط الهواء مع الماء وتقلل الاستهلاك بنسبة 50% بنفس الضغط</p>
+            <span class="tip-save">يوفر 50% من ماء الحنفية</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(0,180,216,0.1)"><span class="ic"><i data-lucide="cloud-rain" style="stroke:#00b4d8"></i></span></div>
+          <div class="tip-content">
+            <h4>اجمع مياه الأمطار</h4>
+            <p>خزان بسيط لتجميع مياه الأمطار يكفي لري الحديقة لأسابيع</p>
+            <span class="tip-save">يوفر ~100% ماء الري</span>
+          </div>
+        </div>
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(6,214,160,0.1)"><span class="ic"><i data-lucide="file-bar-chart" style="stroke:#06d6a0"></i></span></div>
+          <div class="tip-content">
+            <h4>تابع فاتورتك شهرياً</h4>
+            <p>المتابعة المنتظمة لفاتورة المياه تكشف التسربات الخفية والاستهلاك الزائد</p>
+            <span class="tip-save">يكشف توفيراً محتملاً</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHALLENGES -->
+  <div class="section" id="sec-challenges">
+    <div class="grid-2">
+      <div>
+        <div class="card animate-1">
+          <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="trophy"></i></span></div>التحديات الجارية</div>
+          <div id="challenges-list"></div>
+        </div>
+        <div class="card animate-2">
+          <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="target"></i></span></div>هدفي الشهري</div>
+          <div class="goal-section">
+            <div class="goal-input-wrap">
+              <div class="form-group">
+                <label>الهدف (لتر/يوم)</label>
+                <input type="number" id="goal-input" value="120" placeholder="120">
+              </div>
+              <button class="btn btn-primary" style="width:100%" onclick="setGoal()">تحديد الهدف</button>
+            </div>
+            <div class="goal-display">
+              <div class="gval" id="goal-display-val">120</div>
+              <div class="glbl">لتر / يوم</div>
+              <div style="margin-top:0.5rem;font-size:0.78rem;color:var(--green);font-weight:700" id="goal-compare">أقل من المتوسط ✓</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #eef2f8;display:flex;gap:1rem;flex-wrap:wrap">
+            <div style="flex:1;text-align:center">
+              <div style="font-size:0.78rem;color:var(--text-muted);font-weight:600">الشهري المتوقع</div>
+              <div style="font-size:1.3rem;font-weight:900;color:var(--blue-light)" id="monthly-goal">3600</div>
+              <div style="font-size:0.72rem;color:var(--text-muted)">لتر</div>
+            </div>
+            <div style="flex:1;text-align:center">
+              <div style="font-size:0.78rem;color:var(--text-muted);font-weight:600">سنوياً</div>
+              <div style="font-size:1.3rem;font-weight:900;color:var(--blue-light)" id="yearly-goal">43800</div>
+              <div style="font-size:0.72rem;color:var(--text-muted)">لتر</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card animate-2">
+          <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="star"></i></span></div>الإنجازات</div>
+          <div id="achievements-list" style="display:flex;flex-direction:column;gap:0.8rem"></div>
+        </div>
+        <div class="card animate-3">
+          <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="leaf"></i></span></div>أثرك البيئي</div>
+          <div style="display:flex;flex-direction:column;gap:0.8rem" id="env-impact">
+            <div style="background:rgba(6,214,160,0.08);border-radius:11px;padding:1rem;display:flex;align-items:center;gap:12px">
+              <span class="ic" style="width:44px;height:44px;background:rgba(6,214,160,0.15);border-radius:12px;flex-shrink:0"><i data-lucide="tree-pine" style="stroke:#06d6a0;width:22px;height:22px"></i></span>
+              <div>
+                <div style="font-weight:700;font-size:0.95rem;color:var(--text-dark)">أشجار أنقذتها</div>
+                <div style="font-size:1.5rem;font-weight:900;color:var(--green)" id="trees-saved">2.4</div>
+                <div style="font-size:0.78rem;color:var(--text-muted)">شجرة هذا العام</div>
+              </div>
+            </div>
+            <div style="background:rgba(0,180,216,0.08);border-radius:11px;padding:1rem;display:flex;align-items:center;gap:12px">
+              <span class="ic" style="width:44px;height:44px;background:rgba(0,180,216,0.15);border-radius:12px;flex-shrink:0"><i data-lucide="droplets" style="stroke:#00b4d8;width:22px;height:22px"></i></span>
+              <div>
+                <div style="font-weight:700;font-size:0.95rem;color:var(--text-dark)">مياه وُفّرت</div>
+                <div style="font-size:1.5rem;font-weight:900;color:var(--cyan)" id="water-saved-total">11,680</div>
+                <div style="font-size:0.78rem;color:var(--text-muted)">لتر هذا العام</div>
+              </div>
+            </div>
+            <div style="background:rgba(247,127,0,0.08);border-radius:11px;padding:1rem;display:flex;align-items:center;gap:12px">
+              <span class="ic" style="width:44px;height:44px;background:rgba(247,127,0,0.15);border-radius:12px;flex-shrink:0"><i data-lucide="banknote" style="stroke:#f77f00;width:22px;height:22px"></i></span>
+              <div>
+                <div style="font-weight:700;font-size:0.95rem;color:var(--text-dark)">توفير مالي</div>
+                <div style="font-size:1.5rem;font-weight:900;color:var(--accent)" id="money-saved-total">583</div>
+                <div style="font-size:0.78rem;color:var(--text-muted)">جنيه هذا العام</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FACTS & RESOURCES -->
+  <div class="section" id="sec-facts">
+
+    <!-- Global Stats -->
+    <div class="grid-3 animate-1" style="margin-bottom:1.5rem">
+      <div class="stat-card">
+        <div class="stat-icon ic"><i data-lucide="users" style="stroke:#2d7dd2"></i></div>
+        <div class="stat-val" style="font-size:1.5rem">2.2 مليار</div>
+        <div class="stat-label">شخص بدون مياه شرب نظيفة (UN 2022)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon ic"><i data-lucide="droplets" style="stroke:#ef476f"></i></div>
+        <div class="stat-val" style="font-size:1.5rem;color:var(--red)">480 م³</div>
+        <div class="stat-label">متوسط نصيب الفرد العربي سنوياً (2024)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon ic"><i data-lucide="thermometer" style="stroke:#f77f00"></i></div>
+        <div class="stat-val" style="font-size:1.5rem;color:var(--accent)">5-20%</div>
+        <div class="stat-label">انخفاض متوقع في الأمطار بحلول 2050 (IPCC)</div>
+      </div>
+    </div>
+
+    <div class="grid-2 animate-2">
+      <!-- Facts Cards -->
+      <div class="card">
+        <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="bar-chart-3"></i></span></div>حقائق مهمة عن المياه</div>
+
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(0,180,216,0.1)"><span class="ic"><i data-lucide="waves" style="stroke:#00b4d8"></i></span></div>
+          <div class="tip-content">
+            <h4>المنطقة العربية الأشد جفافاً</h4>
+            <p>المنطقة العربية تضم <strong>5%</strong> من سكان العالم لكنها تملك أقل من <strong>1%</strong> من إجمالي موارد المياه العالمية. هي الأجف في العالم وتضم 12 دولة من أكثر دول العالم شُحاً بالمياه وفق تقارير الأمم المتحدة.</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(239,71,111,0.1)"><span class="ic"><i data-lucide="alert-triangle" style="stroke:#ef476f"></i></span></div>
+          <div class="tip-content">
+            <h4>أزمة المياه الجوفية</h4>
+            <p>دول الخليج تستخرج المياه الجوفية بمعدلات أسرع بكثير من معدل تجددها. في الكويت يُستخدم <strong>2465%</strong> من احتياطياتها المتجددة سنوياً، والسعودية <strong>943%</strong>. بعض هذه المياه "أحفورية" مكوّنة منذ آلاف السنين ولا تتجدد.</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(247,127,0,0.1)"><span class="ic"><i data-lucide="factory" style="stroke:#f77f00"></i></span></div>
+          <div class="tip-content">
+            <h4>تحلية المياه في السعودية</h4>
+            <p>السعودية تُنتج حوالي <strong>22%</strong> من إجمالي المياه المحلاة في العالم، بطاقة إنتاجية تجاوزت <strong>11.5 مليون م³</strong> يومياً في 2024. نحو <strong>60%</strong> من مياه الشرب في المملكة مصدرها محطات التحلية التي تستهلك طاقة ضخمة.</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(6,214,160,0.1)"><span class="ic"><i data-lucide="sprout" style="stroke:#06d6a0"></i></span></div>
+          <div class="tip-content">
+            <h4>الزراعة والمياه</h4>
+            <p>الزراعة تستهلك <strong>85%</strong> من إجمالي المياه العذبة في الشرق الأوسط، بينما لا يتجاوز نصيبها في الناتج المحلي الإجمالي 8%. تحسين أساليب الري الزراعي يمكن أن يوفر كميات ضخمة من المياه وفق تقارير البنك الدولي.</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(45,125,210,0.1)"><span class="ic"><i data-lucide="banknote" style="stroke:#2d7dd2"></i></span></div>
+          <div class="tip-content">
+            <h4>نصيب الفرد العربي آخذ في الانخفاض</h4>
+            <p>وصل متوسط نصيب الفرد العربي من المياه المتجددة إلى <strong>480 م³/سنة</strong> في 2024 — أقل من نصف حد الفقر المائي العالمي (1000 م³). 19 دولة عربية تحت خط الفقر المائي، و13 دولة تحت حد الشُّح الشديد (500 م³).</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon" style="background:rgba(6,214,160,0.1)"><span class="ic"><i data-lucide="check-circle-2" style="stroke:#06d6a0"></i></span></div>
+          <div class="tip-content">
+            <h4>الحل في يدك</h4>
+            <p>استبدال الأدوات الصحية التقليدية بأدوات ترشيد حديثة يوفر من <strong>25% إلى 35%</strong> من المياه المستخدمة. تغييرات بسيطة في السلوك اليومي تُحدث فرقاً ضخماً على مستوى الأسرة والمجتمع.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <div class="card animate-3">
+          <div class="card-title"><div class="icon"><span class="ic"><i data-lucide="link-2"></i></span></div>مواقع مفيدة عن المياه</div>
+          <div style="display:flex;flex-direction:column;gap:0.7rem">
+
+            <a href="https://www.mwri.gov.eg/" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-cyan">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#06d6a0,#0a2540);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="sailboat" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">وزارة الموارد المائية والري — مصر 🇪🇬</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">mwri.gov.eg — الجهة الرسمية المسؤولة عن نهر النيل وكل مصادر المياه</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#00b4d8"></i></div>
+              </div>
+            </a>
+
+            <a href="https://www.hcww.com.eg/" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-cyan">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#2d7dd2,#06d6a0);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="droplets" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">الشركة القابضة لمياه الشرب والصرف الصحي 🇪🇬</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">hcww.com.eg — الجهة المشغّلة لشبكات المياه في كل محافظات مصر</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#00b4d8"></i></div>
+              </div>
+            </a>
+
+            <a href="https://ar.wikipedia.org/wiki/%D9%85%D9%88%D8%A7%D8%B1%D8%AF_%D9%85%D8%B5%D8%B1_%D8%A7%D9%84%D9%85%D8%A7%D8%A6%D9%8A%D8%A9" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-cyan">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#888,#444);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="book-open" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">موارد مصر المائية — ويكيبيديا 🇪🇬</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">ar.wikipedia.org — شرح مفصّل عن وضع المياه في مصر</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#00b4d8"></i></div>
+              </div>
+            </a>
+
+            <a href="https://www.unwater.org/water-facts" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-cyan">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#06d6a0,#1a4a7a);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="globe" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">UN-Water — حقائق المياه العالمية</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">unwater.org — إحصاءات ومعلومات دولية موثوقة من الأمم المتحدة</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#00b4d8"></i></div>
+              </div>
+            </a>
+
+            <a href="https://water.fanack.com/" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-cyan">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#f77f00,#ffb347);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="map" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">Fanack Water — المياه في العالم العربي</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">water.fanack.com — تقارير تفصيلية عن كل دولة عربية بما فيها مصر</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#00b4d8"></i></div>
+              </div>
+            </a>
+
+            <a href="https://blogs.worldbank.org/en/arabvoices/numbers-facts-about-water-crisis-arab-world" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-cyan">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#2d7dd2,#0a2540);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="building-2" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">World Bank — أزمة المياه في الوطن العربي</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">worldbank.org — إحصاءات وأرقام موثقة من البنك الدولي</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#00b4d8"></i></div>
+              </div>
+            </a>
+
+            <div style="margin:0.4rem 0 0.2rem;font-size:0.78rem;font-weight:700;color:var(--text-muted);letter-spacing:0.04em;padding-right:4px">── مصادر عالمية ──</div>
+
+            <a href="https://www.nationalgeographic.org/society/our-programs/protecting-the-worlds-freshwater/" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-orange">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#f77f00,#ffb347);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="globe" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">National Geographic — المياه العذبة العالمية</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">nationalgeographic.org — خرائط تفاعلية وتقارير بصرية عن أزمة المياه العالمية</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#f77f00"></i></div>
+              </div>
+            </a>
+
+            <a href="https://www.unwater.org/publications/un-world-water-development-report-2024" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-green">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#06d6a0,#1a4a7a);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="file-text" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">UN World Water Report 2024 — UNESCO</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">unesdoc.unesco.org — تقرير الأمم المتحدة السنوي الأشمل عن المياه عالمياً</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#06d6a0"></i></div>
+              </div>
+            </a>
+
+            <a href="https://iucn.org/our-work/freshwater-and-water-security" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-green">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#3b6d11,#97c459);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="leaf" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">IUCN — الاتحاد الدولي لصون الطبيعة</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">iucn.org — تقارير حماية المياه العذبة والنظم البيئية المائية</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#06d6a0"></i></div>
+              </div>
+            </a>
+
+            <a href="https://water.org/" target="_blank" style="text-decoration:none">
+              <div style="display:flex;align-items:center;gap:12px;padding:0.9rem;border-radius:12px;background:#f8faff;border:1.5px solid #eef2f8;transition:all 0.2s" class="site-link-card site-link-cyan">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#00b4d8,#0a2540);display:flex;align-items:center;justify-content:center;flex-shrink:0"><i data-lucide="heart" style="stroke:#fff;width:18px;height:18px"></i></div>
+                <div>
+                  <div style="font-weight:700;font-size:0.92rem;color:var(--text-dark)">Water.org — منظمة المياه للجميع</div>
+                  <div style="font-size:0.78rem;color:var(--text-muted)">water.org — منظمة دولية تعمل على توصيل المياه النظيفة لـ 2.1 مليار شخص</div>
+                </div>
+                <div style="margin-right:auto"><i data-lucide="arrow-left" style="width:16px;height:16px;stroke:#00b4d8"></i></div>
+              </div>
+            </a>
+          </div><!-- end links list -->
+        </div><!-- end card: مواقع مفيدة -->
+      </div><!-- end right column -->
+    </div><!-- end grid-2 -->
+
+    <!-- Bottom full-width card -->
+    <div class="card animate-4" style="margin-top:0">
+      <div class="card-title"><div class="icon" style="background:linear-gradient(135deg,#ef476f,#be185d)"><span style="font-size:1rem">🚨</span></div>الوضع في مصر والوطن العربي</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem">
+        <div style="background:rgba(239,71,111,0.06);border:1.5px solid rgba(239,71,111,0.2);border-radius:12px;padding:1rem">
+          <div style="font-weight:700;font-size:0.9rem;color:#be185d;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i data-lucide="alert-octagon" style="width:15px;height:15px;stroke:#be185d"></i> تحذير: شُح المياه حقيقي</div>
+          <div style="font-size:0.83rem;color:var(--text-muted);line-height:1.7">متوسط نصيب الفرد العربي من المياه المتجددة وصل إلى <strong>480 م³/سنة</strong> في 2024، أي أقل من نصف حد الفقر المائي (1000 م³). 19 دولة عربية تحت خط الفقر المائي، و13 منها تحت حد الشُّح الشديد — وفق تقرير CEDARE 2024.</div>
+        </div>
+        <div style="background:rgba(247,127,0,0.06);border:1.5px solid rgba(247,127,0,0.2);border-radius:12px;padding:1rem">
+          <div style="font-weight:700;font-size:0.9rem;color:#c2610b;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i data-lucide="trending-down" style="width:15px;height:15px;stroke:#c2610b"></i> التغير المناخي يفاقم الأزمة</div>
+          <div style="font-size:0.83rem;color:var(--text-muted);line-height:1.7">يُتوقع انخفاض الأمطار في منطقة MENA بنسبة <strong>5-20%</strong> بحلول 2050 مع ارتفاع معدلات التبخر وزيادة درجات الحرارة بمعدل ضعف المتوسط العالمي، وفق تقارير IPCC 2024.</div>
+        </div>
+        <div style="background:rgba(6,214,160,0.06);border:1.5px solid rgba(6,214,160,0.2);border-radius:12px;padding:1rem">
+          <div style="font-weight:700;font-size:0.9rem;color:#059669;margin-bottom:6px;display:flex;align-items:center;gap:6px"><i data-lucide="graduation-cap" style="width:15px;height:15px;stroke:#059669"></i> التعليم يصنع الفرق</div>
+          <div style="font-size:0.83rem;color:var(--text-muted);line-height:1.7">دراسات أثبتت أن الطلاب الذين تعلموا ترشيد المياه في المدارس طبّقوا هذه العادات في منازلهم. الأمم المتحدة تؤكد أن تحسين كفاءة الري الزراعي وحده يمكنه سد الفجوة المائية في المنطقة.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end sec-facts -->
+
+
+  <!-- QUIZ -->
+  <div class="section" id="sec-quiz">
+    <div class="card animate-1" style="max-width:680px;margin:0 auto">
+      <div class="card-title">
+        <div class="icon"><span class="ic"><i data-lucide="graduation-cap"></i></span></div>
+        اختبار المياه العلمي
+      </div>
+
+      <!-- Score bar -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;padding:0.8rem 1rem;background:rgba(0,180,216,0.07);border-radius:12px;border:1px solid rgba(0,180,216,0.15)">
+        <div style="font-size:0.85rem;color:var(--text-muted);font-weight:600">النتيجة</div>
+        <div style="display:flex;gap:1.5rem">
+          <span id="quiz-score-correct" style="font-weight:900;color:var(--green);font-size:1rem">✓ <span id="q-correct">0</span></span>
+          <span id="quiz-score-wrong"   style="font-weight:900;color:var(--red);font-size:1rem">✗ <span id="q-wrong">0</span></span>
+          <span style="font-weight:700;color:var(--text-muted);font-size:0.9rem"><span id="q-num">1</span>/10</span>
+        </div>
+      </div>
+
+      <!-- Question card -->
+      <div id="quiz-question-wrap">
+        <div id="quiz-q-text" style="font-size:1.1rem;font-weight:700;color:var(--text-dark);margin-bottom:1.2rem;line-height:1.6;min-height:60px"></div>
+        <div id="quiz-options" style="display:flex;flex-direction:column;gap:0.6rem"></div>
+        <div id="quiz-feedback" style="margin-top:1rem;display:none"></div>
+        <button id="quiz-next-btn" onclick="quizNext()" class="btn btn-primary" style="width:100%;margin-top:1.2rem;display:none">السؤال التالي ←</button>
+      </div>
+
+      <!-- Result screen -->
+      <div id="quiz-result" style="display:none;text-align:center;padding:1.5rem 0">
+        <div style="font-size:3rem;margin-bottom:0.5rem" id="quiz-result-emoji">🏆</div>
+        <div style="font-size:1.4rem;font-weight:900;color:var(--cyan);margin-bottom:0.4rem" id="quiz-result-title"></div>
+        <div style="font-size:1rem;color:var(--text-muted);margin-bottom:1.5rem" id="quiz-result-msg"></div>
+        <div style="font-size:2.2rem;font-weight:900;color:var(--blue-light);margin-bottom:1.2rem"><span id="quiz-final-score"></span> / 10</div>
+        <button onclick="startQuiz()" class="btn btn-primary" style="width:100%">🔄 العب مرة تانية</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── TABS SLIDER ──────────────────────────────────
+function moveSlider(activeBtn) {
+  const slider = document.getElementById('tabs-slider');
+  const bar = document.getElementById('tabs-bar');
+  if (!slider || !bar || !activeBtn) return;
+  slider.style.left = activeBtn.offsetLeft + 'px';
+  slider.style.width = activeBtn.offsetWidth + 'px';
+}
+
+// ── WATER RIPPLE EFFECT ──────────────────────────
+function addRipple(btn, e) {
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height) * 1.5;
+  const x = (e ? e.clientX - rect.left : rect.width / 2) - size / 2;
+  const y = (e ? e.clientY - rect.top  : rect.height / 2) - size / 2;
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;position:absolute`;
+  btn.appendChild(ripple);
+  ripple.addEventListener('animationend', () => ripple.remove());
+}
+
+// attach ripple to all tab buttons
+document.addEventListener('DOMContentLoaded', () => {
+  // ripple only on mobile nav and drawer, NOT tab-btn
+  document.querySelectorAll('.mobile-nav-btn, .drawer-btn').forEach(btn => {
+    btn.addEventListener('click', e => addRipple(btn, e));
+  });
+});
+
+// ── TAB SWITCHING ──────────────────────────────
+function showTab(id, el) {
+  // 1. حرّك الـ slider فوراً
+  if (el) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    moveSlider(el);
+  }
+
+  // 2. غيّر الـ section مباشرة بدون delay
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showTabMobile(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mobile-nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  // sync desktop tabs
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+id+"'")) b.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // rebuild charts if needed
+  if (id === 'dashboard') { buildWeeklyChart(); buildMonthlyChart(); }
+}
+
+function toggleMobileMenu() {
+  // on mobile just scroll to tabs area
+  const tabs = document.querySelector('.tabs');
+  if (tabs) tabs.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── DATA STORAGE ──────────────────────────────
+// المتوسط الوطني المصري: ~200 لتر/يوم (وفق تقارير الشركة القابضة لمياه الشرب 2023)
+const NATIONAL_AVG_DAILY = 200;
+// متوسط شهري = أيام الشهر × المتوسط اليومي
+const MONTHLY_AVG = [6200,5600,6200,6000,6200,6000,6200,6200,6000,6200,6000,6200];
+const MONTH_NAMES = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const DAY_NAMES = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+
+// حفظ وتحميل البيانات
+function saveData(data) { localStorage.setItem('waterData', JSON.stringify(data)); }
+function loadData() {
+  try { return JSON.parse(localStorage.getItem('waterData')) || {}; } catch(e) { return {}; }
+}
+
+// مفتاح اليوم: YYYY-MM-DD
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
+}
+
+// بيانات الأسبوع الحالي (آخر 7 أيام)
+function getWeekData() {
+  const stored = loadData();
+  const result = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = d.getFullYear()+'-'+(d.getMonth()+1).toString().padStart(2,'0')+'-'+d.getDate().toString().padStart(2,'0');
+    const dayName = DAY_NAMES[d.getDay()];
+    result.push({ label: dayName, value: stored[key] || null, key });
+  }
+  return result;
+}
+
+// بيانات آخر 6 أشهر
+function getMonthlyData() {
+  const stored = loadData();
+  const result = [];
+  const now = new Date();
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const mo = d.getMonth(); const yr = d.getFullYear();
+    const daysInMonth = new Date(yr, mo+1, 0).getDate();
+    let total = 0, count = 0;
+    for (let day = 1; day <= daysInMonth; day++) {
+      const key = yr+'-'+(mo+1).toString().padStart(2,'0')+'-'+day.toString().padStart(2,'0');
+      if (stored[key] != null) { total += stored[key]; count++; }
+    }
+    result.push({
+      label: MONTH_NAMES[mo],
+      value: count > 0 ? Math.round(total) : null,
+      avg: MONTHLY_AVG[mo],
+      days: count
+    });
+  }
+  return result;
+}
+
+// ── WEEKLY CHART ──────────────────────────────
+function buildWeeklyChart() {
+  const weekData = getWeekData();
+  const values = weekData.map(d => d.value || NATIONAL_AVG_DAILY);
+  const max = Math.max(...values, NATIONAL_AVG_DAILY) * 1.15;
+  const chart = document.getElementById('weekly-chart');
+  chart.innerHTML = '';
+  weekData.forEach((d, i) => {
+    const hasData = d.value !== null;
+    const val = hasData ? d.value : null;
+    const myH = val !== null ? Math.round((val / max) * 170) : 0;
+    const avgH = Math.round((NATIONAL_AVG_DAILY / max) * 170);
+    const group = document.createElement('div');
+    group.className = 'bar-group';
+    group.innerHTML = `
+      <div class="bar-wrap">
+        <div class="bar" style="height:0;background:${hasData ? 'linear-gradient(180deg,#00b4d8,#2d7dd2)' : 'rgba(0,180,216,0.2)'};${hasData?'':'border:1.5px dashed #00b4d8'}" title="${val !== null ? val+' لتر' : 'لم يُسجَّل'}"></div>
+        <div class="bar" style="height:0;background:#eef2f8;border:1.5px solid #c8d8f0" title="${NATIONAL_AVG_DAILY} لتر متوسط وطني"></div>
+      </div>
+      <div class="bar-label">${d.label}</div>`;
+    chart.appendChild(group);
+    setTimeout(() => {
+      group.querySelectorAll('.bar')[0].style.height = (val !== null ? myH : avgH * 0.4) + 'px';
+      group.querySelectorAll('.bar')[1].style.height = avgH + 'px';
+    }, 200 + i * 80);
+  });
+}
+
+// ── MONTHLY CHART ──────────────────────────────
+function buildMonthlyChart() {
+  const monthData = getMonthlyData();
+  const values = monthData.map(d => d.value || 0);
+  const avgs = monthData.map(d => d.avg);
+  const max = Math.max(...values, ...avgs) * 1.15;
+  const chart = document.getElementById('monthly-chart');
+  chart.innerHTML = '';
+  monthData.forEach((m, i) => {
+    const hasData = m.value !== null && m.days > 0;
+    const myH = hasData ? Math.round((m.value / max) * 120) : 0;
+    const avgH = Math.round((m.avg / max) * 120);
+    const group = document.createElement('div');
+    group.className = 'bar-group';
+    group.innerHTML = `
+      <div class="bar-wrap">
+        <div class="bar" style="height:0;background:${hasData ? 'linear-gradient(180deg,#2d7dd2,#1a4a7a)' : 'rgba(45,125,210,0.2)'};${hasData?'':'border:1.5px dashed #2d7dd2'}" title="${hasData ? m.value+' لتر ('+m.days+' يوم)' : 'لا بيانات'}"></div>
+        <div class="bar" style="height:0;background:linear-gradient(180deg,#f77f00,#ffb347)" title="${m.avg} لتر متوسط وطني"></div>
+      </div>
+      <div class="bar-label">${m.label}</div>`;
+    chart.appendChild(group);
+    setTimeout(() => {
+      group.querySelectorAll('.bar')[0].style.height = (hasData ? myH : 0) + 'px';
+      group.querySelectorAll('.bar')[1].style.height = avgH + 'px';
+    }, 200 + i * 100);
+  });
+}
+
+// ── METER ──────────────────────────────────────
+function updateMeter() {
+  const v = parseInt(document.getElementById('daily-input').value);
+  if (!v || v <= 0) return;
+  const goal = parseInt(document.getElementById('goal-input').value) || 120;
+  const pct = Math.min(Math.round((v / goal) * 100), 150);
+  const r = 64, circ = 2 * Math.PI * r;
+  const offset = circ * (1 - Math.min(pct / 100, 1));
+  document.getElementById('meter-fill').style.strokeDashoffset = offset;
+  document.getElementById('meter-fill').style.stroke = pct > 100 ? '#ef476f' : 'url(#meter-grad)';
+  document.getElementById('meter-pct').textContent = Math.min(pct,100) + '%';
+  document.getElementById('today-usage').textContent = v;
+  const saved = Math.max(0, goal - v);
+  document.getElementById('saved-amount').textContent = saved;
+  document.getElementById('goal-pct').textContent = Math.min(pct,100);
+
+  // حفظ بيانات اليوم
+  const data = loadData();
+  data[todayKey()] = v;
+  saveData(data);
+
+  // حساب الوفر الأسبوعي من البيانات الفعلية
+  const week = getWeekData();
+  const totalSaved = week.reduce((sum, d) => {
+    return sum + (d.value !== null ? Math.max(0, goal - d.value) : 0);
+  }, 0);
+  document.getElementById('saved-amount').textContent = totalSaved;
+
+  // إعادة رسم الجراف
+  buildWeeklyChart();
+  buildMonthlyChart();
+  checkAchievements();
+
+  // رسالة تأكيد
+  const btn = document.querySelector('[onclick="updateMeter()"]');
+  if (btn) { btn.textContent = '✓ تم الحفظ'; setTimeout(() => btn.textContent = 'تحديث', 2000); }
+}
+
+// ── CALCULATOR ────────────────────────────────
+function calcTotal() {
+  const shower = +document.getElementById('shower-sl').value * 60;
+  const toilet = +document.getElementById('toilet-sl').value * 8;
+  const dishes = +document.getElementById('dishes-sl').value * 8;
+  const laundry = +document.getElementById('laundry-sl').value * 80;
+  const garden = +document.getElementById('garden-sl').value * 15;
+  const drink  = +document.getElementById('drink-sl').value;
+  const total = shower + toilet + dishes + laundry + garden + drink;
+
+  document.getElementById('calc-total').textContent = total;
+  document.getElementById('monthly-calc').textContent = (total * 30).toLocaleString();
+  const saving = Math.max(0, total - 100);
+  document.getElementById('saving-calc').textContent = (saving * 30).toLocaleString();
+  document.getElementById('money-calc').textContent = Math.round(saving * 30 * 0.05);
+
+  const alert = document.getElementById('calc-alert');
+  if (total < 100) {
+    alert.className = 'alert alert-success';
+    alert.textContent = '🌟 ممتاز! استهلاكك أقل من المتوسط. استمر!';
+  } else if (total < 180) {
+    alert.className = 'alert alert-info';
+    alert.textContent = '👍 معقول، يمكنك تقليله بعدة نصائح بسيطة.';
+  } else {
+    alert.className = 'alert alert-warning';
+    alert.textContent = '⚠️ استهلاكك مرتفع. راجع نصائح الترشيد لتوفير كبير!';
+  }
+
+  const breakdown = [
+    { label: '🚿 الاستحمام', val: shower },
+    { label: '🚽 الحمام', val: toilet },
+    { label: '🍽️ الغسيل', val: dishes },
+    { label: '👕 الغسالة', val: laundry },
+    { label: '🌿 الحديقة', val: garden },
+    { label: '🍳 الطبخ والشرب', val: drink },
+  ];
+  const listEl = document.getElementById('breakdown-list');
+  listEl.innerHTML = breakdown.filter(b=>b.val>0).map(b => {
+    const pct = total > 0 ? Math.round((b.val / total) * 100) : 0;
+    return `<div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:0.82rem;font-weight:600;color:var(--text-muted);margin-bottom:3px">
+        <span>${b.label}</span><span>${b.val} لتر (${pct}%)</span>
+      </div>
+      <div style="background:#eef2f8;border-radius:10px;height:7px;overflow:hidden">
+        <div style="height:100%;border-radius:10px;background:linear-gradient(90deg,#00b4d8,#2d7dd2);transition:width 0.6s;width:${pct}%"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── CHALLENGES ────────────────────────────────
+// ── CHALLENGES SYSTEM ──────────────────────────
+const CHALLENGES_DEF = [
+  { id:1, title:'أسبوع الاستحمام السريع', desc:'استحم أقل من 5 دقائق يومياً لمدة أسبوع', save:'280 لتر', diff:'سهل',    totalDays:7  },
+  { id:2, title:'لا غسالة نصف ممتلئة',   desc:'لا تشغّل الغسالة إلا وهي ممتلئة تماماً لمدة شهر', save:'560 لتر', diff:'متوسط', totalDays:30 },
+  { id:3, title:'حديقة بلا خرطوم',       desc:'استخدم الدلو فقط لري حديقتك طوال الأسبوع', save:'910 لتر', diff:'صعب',    totalDays:7  },
+  { id:4, title:'تحدي اكتشاف التسربات', desc:'افحص كل الحنفيات والمواسير في منزلك اليوم', save:'يختلف', diff:'سهل',   totalDays:1  },
+];
+
+function loadChallenges() {
+  try { return JSON.parse(localStorage.getItem('challengesState')) || {}; } catch(e) { return {}; }
+}
+function saveChallenges(state) { localStorage.setItem('challengesState', JSON.stringify(state)); }
+
+function getChallengeState(id) {
+  const state = loadChallenges();
+  return state[id] || { started: false, completedDays: [], done: false };
+}
+
+function buildChallenges() {
+  const list = document.getElementById('challenges-list');
+  list.innerHTML = CHALLENGES_DEF.map(c => {
+    const st = getChallengeState(c.id);
+    const completedToday = st.completedDays && st.completedDays.includes(todayKey());
+    const doneDays = st.completedDays ? st.completedDays.length : 0;
+    const pct = st.done ? 100 : Math.round((doneDays / c.totalDays) * 100);
+    const badge = c.diff === 'سهل' ? 'badge-easy' : c.diff === 'متوسط' ? 'badge-medium' : 'badge-hard';
+    const cls = st.done ? 'done-challenge' : st.started ? 'active-challenge' : '';
+    const daysLabel = st.done ? 'مكتمل ✓' : st.started ? `${doneDays}/${c.totalDays} ${c.totalDays===1?'يوم':'أيام'}` : 'لم يبدأ';
+
+    let actionBtn = '';
+    if (st.done) {
+      actionBtn = `<div style="margin-top:0.7rem;text-align:center;font-size:0.82rem;font-weight:700;color:var(--green)">🏆 أحسنت! أكملت التحدي</div>`;
+    } else if (!st.started) {
+      actionBtn = `<button onclick="event.stopPropagation();startChallenge(${c.id})" class="btn btn-primary" style="width:100%;margin-top:0.7rem;padding:8px;font-size:0.85rem">ابدأ التحدي</button>`;
+    } else if (completedToday) {
+      actionBtn = `<div style="margin-top:0.7rem;text-align:center;font-size:0.82rem;font-weight:700;color:var(--cyan)">✓ سجّلت إنجازك اليوم</div>`;
+    } else {
+      actionBtn = `<button onclick="event.stopPropagation();logChallengeDay(${c.id})" class="btn btn-primary" style="width:100%;margin-top:0.7rem;padding:8px;font-size:0.85rem">✓ أنجزت المهمة اليوم</button>`;
+    }
+
+    return `<div class="challenge-card ${cls}" style="margin-bottom:0.8rem">
+      <div class="challenge-header">
+        <div class="challenge-title">${c.title}</div>
+        <div class="challenge-badge ${badge}">${c.diff}</div>
+      </div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.5rem">${c.desc}</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" style="width:${pct}%"></div>
+      </div>
+      <div class="challenge-meta">
+        <span>${daysLabel}</span>
+        <span style="color:var(--green)">يوفر ${c.save}</span>
+      </div>
+      ${actionBtn}
+    </div>`;
+  }).join('');
+}
+
+function startChallenge(id) {
+  const state = loadChallenges();
+  state[id] = { started: true, completedDays: [], done: false };
+  saveChallenges(state);
+  buildChallenges();
+  checkAchievements();
+}
+
+function logChallengeDay(id) {
+  const state = loadChallenges();
+  const def = CHALLENGES_DEF.find(c => c.id === id);
+  if (!state[id]) state[id] = { started: true, completedDays: [], done: false };
+  const st = state[id];
+  if (!st.completedDays.includes(todayKey())) {
+    st.completedDays.push(todayKey());
+  }
+  if (st.completedDays.length >= def.totalDays) {
+    st.done = true;
+    showCelebration(def.title);
+  }
+  saveChallenges(state);
+  buildChallenges();
+  checkAchievements();
+}
+
+function showCelebration(title) {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:linear-gradient(135deg,#0a2540,#1a4a7a);border:2px solid var(--cyan);border-radius:20px;padding:2rem 2.5rem;text-align:center;color:#fff;box-shadow:0 20px 60px rgba(0,180,216,0.4);animation:fadeUp 0.4s ease';
+  el.innerHTML = `<div style="font-size:2.5rem;margin-bottom:0.5rem">🏆</div><div style="font-size:1.2rem;font-weight:900;color:var(--cyan)">أحسنت!</div><div style="margin-top:0.3rem;font-size:0.95rem;opacity:0.85">أكملت تحدي: ${title}</div>`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// ── ACHIEVEMENTS ──────────────────────────────
+const ACHIEVEMENTS_DEF = [
+  { id:'first_log',  lucide:'footprints', title:'أول خطوة',      desc:'سجّلت استهلاكك لأول مرة' },
+  { id:'saver',      lucide:'droplets',   title:'موفر المياه',    desc:'وفّرت أكثر من 100 لتر في أسبوع' },
+  { id:'challenger', lucide:'leaf',       title:'صديق البيئة',   desc:'أتممت تحدياً واحداً بنجاح' },
+  { id:'champion',   lucide:'trophy',     title:'بطل الترشيد',   desc:'أكملت 3 تحديات' },
+];
+
+function loadAchievements() {
+  try { return JSON.parse(localStorage.getItem('achievements')) || []; } catch(e) { return []; }
+}
+function saveAchievements(arr) { localStorage.setItem('achievements', JSON.stringify(arr)); }
+
+function checkAchievements() {
+  const earned = loadAchievements();
+  const waterData = loadData();
+  const challengeState = loadChallenges();
+
+  // أول خطوة
+  if (Object.keys(waterData).length > 0 && !earned.includes('first_log')) earned.push('first_log');
+
+  // موفر المياه: وفّر 100 لتر في أسبوع
+  const week = getWeekData();
+  const goal = parseInt(document.getElementById('goal-input')?.value) || 120;
+  const weekSaved = week.reduce((s,d) => s + (d.value ? Math.max(0, goal - d.value) : 0), 0);
+  if (weekSaved >= 100 && !earned.includes('saver')) earned.push('saver');
+
+  // صديق البيئة: تحدي واحد مكتمل
+  const doneChallenges = CHALLENGES_DEF.filter(c => challengeState[c.id]?.done).length;
+  if (doneChallenges >= 1 && !earned.includes('challenger')) earned.push('challenger');
+
+  // بطل الترشيد: 3 تحديات
+  if (doneChallenges >= 3 && !earned.includes('champion')) earned.push('champion');
+
+  saveAchievements(earned);
+  buildAchievements();
+}
+
+function buildAchievements() {
+  const earned = loadAchievements();
+  const list = document.getElementById('achievements-list');
+  list.innerHTML = ACHIEVEMENTS_DEF.map(a => {
+    const done = earned.includes(a.id);
+    return `
+    <div style="display:flex;align-items:center;gap:12px;padding:0.8rem;border-radius:11px;background:${done?'rgba(6,214,160,0.08)':'rgba(0,0,0,0.03)'};border:1.5px solid ${done?'rgba(6,214,160,0.2)':'var(--tip-border)'};opacity:${done?1:0.5};transition:all 0.3s">
+      <span style="width:40px;height:40px;border-radius:11px;background:${done?'rgba(6,214,160,0.15)':'rgba(0,0,0,0.05)'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        ${ic(a.lucide, done?'#059669':'#4a6fa5', 20)}
+      </span>
+      <div>
+        <div style="font-weight:700;font-size:0.9rem;color:var(--text-dark)">${a.title} ${done?'<span style="color:#059669">✓</span>':''}</div>
+        <div style="font-size:0.78rem;color:var(--text-muted)">${a.desc}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── GOAL ──────────────────────────────────────
+function setGoal() {
+  const v = parseInt(document.getElementById('goal-input').value) || 120;
+  document.getElementById('goal-display-val').textContent = v;
+  document.getElementById('monthly-goal').textContent = (v * 30).toLocaleString();
+  document.getElementById('yearly-goal').textContent = (v * 365).toLocaleString();
+  document.getElementById('goal-compare').textContent = v < 150 ? 'أقل من المتوسط ✓' : v < 200 ? 'في نطاق المتوسط' : 'أعلى من المتوسط ⚠️';
+  document.getElementById('goal-compare').style.color = v < 150 ? 'var(--green)' : v < 200 ? 'var(--accent)' : 'var(--red)';
+}
+
+// ── INIT ──────────────────────────────────────
+
+
+
+// ── QUIZ ──────────────────────────────────────
+const QUIZ_QUESTIONS = [
+  // ── المياه والترشيد ──
+  {q:"كم لتراً من الماء يستهلك الإنسان البالغ في المتوسط يومياً في مصر؟",options:["50 لتر","120 لتر","200 لتر","350 لتر"],correct:2,explain:"وفق الشركة القابضة لمياه الشرب، متوسط استهلاك الفرد في مصر حوالي 200 لتر/يوم، وهو أعلى من المتوسط العالمي الموصى به (100-150 لتر)."},
+  {q:"ما نسبة المياه العذبة من إجمالي مياه الكرة الأرضية؟",options:["50%","25%","10%","3%"],correct:3,explain:"97% من مياه الأرض مالحة في البحار والمحيطات، و3% فقط عذبة — وثلثاها محبوسان في الجليد القطبي!"},
+  {q:"كم لتراً من الماء يهدره صنبور يقطر قطرة كل ثانية في السنة؟",options:["1,000 لتر","5,000 لتر","10,000 لتر","50,000 لتر"],correct:2,explain:"قطرة واحدة كل ثانية = 86,400 قطرة يومياً ≈ 10,000 لتر في السنة. الإصلاح الفوري ضروري جداً!"},
+  {q:"ما هو الحد الأدنى للفقر المائي للفرد سنوياً وفق الأمم المتحدة؟",options:["500 م³","1,000 م³","2,000 م³","5,000 م³"],correct:1,explain:"الأمم المتحدة تعتبر الدولة في حالة فقر مائي إذا كان نصيب الفرد أقل من 1,000 م³/سنة. 19 دولة عربية تحت هذا الحد!"},
+  {q:"ما نسبة المياه التي تستهلكها الزراعة من إجمالي المياه العذبة في الشرق الأوسط؟",options:["40%","60%","75%","85%"],correct:3,explain:"الزراعة تستهلك حوالي 85% من المياه العذبة في الشرق الأوسط، بينما لا يتجاوز نصيبها في الناتج المحلي 8%."},
+  {q:"كم دقيقة استحمام بالرشاش تعادل استخدام حوض الاستحمام الكامل من حيث استهلاك الماء؟",options:["2 دقائق","5 دقائق","8 دقائق","15 دقيقة"],correct:1,explain:"حوض الاستحمام الكامل يحتاج ~150 لتر، بينما الاستحمام بالرشاش 5 دقائق يحتاج ~50 لتر فقط. توفير 100 لتر في كل مرة!"},
+  {q:"ما هي الدولة الأعلى إنتاجاً للمياه المحلاة في العالم؟",options:["الإمارات","السعودية","الكويت","إسرائيل"],correct:1,explain:"المملكة العربية السعودية تنتج حوالي 22% من إجمالي المياه المحلاة عالمياً بطاقة تتجاوز 11.5 مليون م³/يوم (2024)."},
+  {q:"كم شخصاً في العالم يفتقر إلى مياه شرب نظيفة وفق الأمم المتحدة 2022؟",options:["500 مليون","1 مليار","2.2 مليار","4 مليار"],correct:2,explain:"وفق تقرير الأمم المتحدة 2022، 2.2 مليار شخص حول العالم لا يحصلون على مياه شرب آمنة."},
+  {q:"ما الكمية التقريبية للمياه اللازمة لإنتاج كيلوغرام واحد من اللحم البقري؟",options:["500 لتر","2,000 لتر","5,000 لتر","15,000 لتر"],correct:3,explain:"إنتاج كيلوغرام واحد من اللحم البقري يحتاج تقريباً 15,000 لتر من الماء (للشرب + الأعلاف + المعالجة)."},
+  {q:"ما نسبة الانخفاض المتوقع في الأمطار بمنطقة MENA بحلول 2050 وفق IPCC؟",options:["1-2%","5-20%","30-40%","50%"],correct:1,explain:"وفق تقارير IPCC 2024، يُتوقع انخفاض الأمطار في منطقة الشرق الأوسط وشمال أفريقيا بنسبة 5-20% بحلول 2050."},
+  {q:"ما أكبر خزان للمياه العذبة السائلة على سطح الأرض؟",options:["بحيرة سوبيريور","بحيرة بايكال","نهر الأمازون","المياه الجوفية"],correct:3,explain:"المياه الجوفية هي أكبر خزان للمياه العذبة السائلة على الأرض، وتُشكّل حوالي 30% من إجمالي المياه العذبة."},
+  {q:"كم لتراً من الماء تحتاجه غسالة الأطباق الكاملة مقارنة بالغسيل اليدوي؟",options:["نفس الكمية","ضعف الكمية","أقل بنسبة 50%","أقل بنسبة 80%"],correct:2,explain:"غسالة الأطباق الحديثة تستهلك 10-15 لتراً فقط، بينما الغسيل اليدوي يحتاج 30-60 لتراً. الغسالة أوفر بنسبة 50-75%!"},
+  {q:"ما هي نسبة المياه في جسم الإنسان البالغ؟",options:["40%","55%","60%","80%"],correct:2,explain:"جسم الإنسان البالغ يتكون من 60% ماء تقريباً. الدم يحتوي على 83% ماء، والدماغ 75%، والعضلات 75%."},
+  {q:"ما أعمق بحيرة مياه عذبة في العالم؟",options:["بحيرة سوبيريور","بحيرة تيتيكاكا","بحيرة بايكال","بحيرة تنجانيقا"],correct:2,explain:"بحيرة بايكال في روسيا هي أعمق بحيرة في العالم بعمق 1,642 متر، وتحتوي على 20% من إجمالي المياه العذبة السطحية على الأرض."},
+  {q:"كم يوماً يمكن للإنسان أن يعيش بدون ماء؟",options:["يوم واحد","3 أيام","7 أيام","14 يوماً"],correct:1,explain:"يمكن للإنسان البقاء بدون ماء لمدة 3 أيام فقط في الظروف العادية. في الحر الشديد قد لا يتجاوز ذلك ساعات قليلة."},
+  {q:"ما هي درجة حرارة انصهار الجليد عند ضغط جوي قياسي؟",options:["0°م","4°م","-4°م","10°م"],correct:0,explain:"الجليد ينصهر عند 0 درجة مئوية (32 درجة فهرنهايت) عند ضغط جوي قياسي. هذه من أهم الخصائص الفريدة للماء."},
+
+  // ── فيزياء الماء ──
+  {q:"ما هي درجة الحرارة التي يكون عندها الماء في أكثف حالاته (أعلى كثافة)؟",options:["0°م","4°م","10°م","100°م"],correct:1,explain:"الماء يصل لأقصى كثافة له عند 4°م. هذا يفسر لماذا يطفو الجليد على الماء — فهو أقل كثافة من السائل عند 0°م."},
+  {q:"ما هو التوتر السطحي للماء عند 20°م مقارنة بمعظم السوائل؟",options:["منخفض جداً","متوسط","مرتفع جداً","لا توتر سطحي"],correct:2,explain:"للماء توتر سطحي مرتفع جداً (72.8 mN/m عند 20°م) بسبب الروابط الهيدروجينية القوية. يُمكّن ذلك الحشرات من المشي على سطحه!"},
+  {q:"ما هي درجة غليان الماء على قمة جبل إيفرست (8,849م)؟",options:["100°م","90°م","70°م","50°م"],correct:2,explain:"على قمة إيفرست الضغط الجوي ثلث ضغط سطح البحر، لذا يغلي الماء عند ~70°م. هذا يجعل طهو الطعام صعباً جداً!"},
+  {q:"ما هي الصيغة الكيميائية للماء الثقيل؟",options:["H₂O","D₂O","H₂O₂","HDO"],correct:1,explain:"الماء الثقيل (D₂O) يحتوي على الديوتيريوم بدل الهيدروجين العادي. يُستخدم في المفاعلات النووية. كثافته أعلى من الماء العادي بـ 11%."},
+  {q:"ما اللون الحقيقي للماء النقي الكثير؟",options:["شفاف تماماً","أزرق فاتح","أخضر","لا لون"],correct:1,explain:"الماء النقي يمتص ألوان الطيف الأحمر قليلاً، مما يجعله يبدو بلون أزرق فاتح عند النظر عبر طبقات سميكة. لهذا المحيطات زرقاء!"},
+  {q:"ما هي السعة الحرارية النوعية للماء؟",options:["1 كيلوجول/(كجم·ك)","2.1 كيلوجول/(كجم·ك)","4.18 كيلوجول/(كجم·ك)","8 كيلوجول/(كجم·ك)"],correct:2,explain:"للماء سعة حرارية نوعية عالية جداً = 4.18 كيلوجول/(كجم·ك)، أعلى بكثير من معظم المواد. هذا يجعله مادة تبريد ممتازة ويُخفّف التغيرات المناخية."},
+  {q:"ما ظاهرة الخاصية الشعرية في الماء؟",options:["توتر سطحي المياه","صعود الماء في الأنابيب الضيقة ضد الجاذبية","تحلل الماء بالكهرباء","تجمد الماء"],correct:1,explain:"الخاصية الشعرية هي قدرة الماء على الصعود في الأنابيب الضيقة جداً ضد الجاذبية بسبب التجاذب بين جزيئاته والسطح. تُمكّن النباتات من نقل الماء لأعلى."},
+  {q:"ما هو الانحلال الكهربائي للماء (التحليل الكهربائي)؟",options:["H₂O → H₂ + O","2H₂O → 2H₂ + O₂","H₂O → H + OH","H₂O → 2H + O"],correct:1,explain:"التحليل الكهربائي للماء: 2H₂O → 2H₂ + O₂. ينتج عنه غاز الهيدروجين (طاقة نظيفة مستقبلية!) والأكسجين."},
+  {q:"ما معامل الانكسار الضوئي للماء النقي؟",options:["1.0","1.33","1.5","2.0"],correct:1,explain:"معامل انكسار الماء النقي ≈ 1.33، أي أن سرعة الضوء في الماء = سرعة الضوء في الفراغ ÷ 1.33. هذا يفسر الانكسار الضوئي في المسابح!"},
+  {q:"عند أي ضغط يتجمد الماء ويغلي في نفس الوقت (النقطة الثلاثية)؟",options:["0.006 ضغط جوي","0.1 ضغط جوي","1 ضغط جوي","10 ضغط جوي"],correct:0,explain:"النقطة الثلاثية للماء تحدث عند 0.00603 ضغط جوي و0.01°م. عندها الماء يوجد في الحالات الثلاثة (صلب، سائل، غاز) في نفس الوقت!"},
+  {q:"ما نوع الرابطة التي تربط جزيئات الماء ببعضها وتُعطيه خصائصه الفريدة؟",options:["رابطة تساهمية","رابطة أيونية","رابطة هيدروجينية","رابطة فان دير فالس"],correct:2,explain:"الروابط الهيدروجينية بين جزيئات الماء هي سر خصائصه الفريدة: ارتفاع درجة الغليان، التوتر السطحي العالي، السعة الحرارية الكبيرة."},
+
+  // ── الكيمياء المائية ──
+  {q:"ما درجة pH الماء النقي عند 25°م؟",options:["5","7","9","14"],correct:1,explain:"الماء النقي له pH = 7 (متعادل)، لأن تركيز أيونات H⁺ = تركيز OH⁻ = 10⁻⁷ مول/لتر. أي انحراف يجعله حامضياً أو قلوياً."},
+  {q:"ما ظاهرة قساوة الماء؟",options:["ارتفاع درجة حرارته","وجود أملاح الكالسيوم والمغنيسيوم الذائبة","تلوثه بالجراثيم","ارتفاع تركيز الكلور فيه"],correct:1,explain:"الماء القاسي يحتوي على نسبة عالية من أملاح الكالسيوم والمغنيسيوم المذابة. يترك ترسبات على الأواني ويُضر أجهزة التسخين ويُقلل فاعلية الصابون."},
+  {q:"ما الغاز الذي يُضاف لمياه الشرب لتعقيمها في معظم دول العالم؟",options:["الأوزون","الكلور","الفلور","النيتروجين"],correct:1,explain:"الكلور هو أكثر مواد تعقيم المياه استخداماً. يقتل البكتيريا والفيروسات بفاعلية وبتكلفة منخفضة. يُستخدم منذ أوائل القرن العشرين."},
+  {q:"ما مقدار الأكسجين الذائب الطبيعي في المياه العذبة النقية؟",options:["0 مجم/لتر","5-10 مجم/لتر","20 مجم/لتر","50 مجم/لتر"],correct:1,explain:"المياه النقية تحتوي على 5-10 ملغ/لتر من الأكسجين الذائب. الأسماك والكائنات المائية تحتاج على الأقل 5 ملغ/لتر للبقاء."},
+  {q:"ما ظاهرة التخثر في معالجة المياه؟",options:["تبخير الماء","إضافة مواد كيميائية تجمع الجسيمات العالقة","ترشيح الماء بالرمل","تعقيم الماء"],correct:1,explain:"التخثر: إضافة مواد مثل كبريتات الألومنيوم لتجميع الجسيمات العالقة الصغيرة في كتل كبيرة تستقر بالترسيب قبل الترشيح."},
+
+  // ── الأحياء والماء ──
+  {q:"ما الكائن الحي الذي يُنتج أكثر من 50% من أكسجين الغلاف الجوي عبر التمثيل الضوئي المائي؟",options:["أشجار الأمازون","الطحالب الخضراء","العوالق النباتية البحرية","الأعشاب البحرية"],correct:2,explain:"العوالق النباتية (phytoplankton) في المحيطات تُنتج 50-80% من أكسجين الكرة الأرضية عبر التمثيل الضوئي. أهم من الغابات بكثير!"},
+  {q:"ما الآلية التي تستخدمها النباتات لنقل الماء من الجذور إلى الأوراق؟",options:["الضخ النشط فقط","الأسموزية فقط","النتح والتوتر السطحي والخاصية الشعرية","الجاذبية"],correct:2,explain:"النباتات ترفع الماء عبر ثلاث قوى: تبخر الماء من الأوراق (النتح) يسحب الماء، الروابط الهيدروجينية تحافظ على عمود الماء، والخاصية الشعرية في الأوعية تساعد."},
+  {q:"ما الكائنات الحية الوحيدة التي تستطيع البقاء في بحيرة دون تيران المالحة جداً (ملوحة 34%)؟",options:["الضفادع","البكتيريا الهالوفيلية","الأسماك المهاجرة","الأخطبوط"],correct:1,explain:"البكتيريا الهالوفيلية (محبة الملح) تعيش في مياه بالغة الملوحة لا تستطيع أي كائنات أخرى تحملها. لها آليات خاصة لضبط الضغط الأسموزي."},
+  {q:"ما ظاهرة التناضح (الأسموزية) في الخلايا الحية؟",options:["امتصاص الأكسجين","انتقال الماء من تركيز منخفض للأملاح إلى مرتفع عبر غشاء شبه منفذ","تبادل الغازات","هضم الغذاء"],correct:1,explain:"الأسموزية: انتقال جزيئات الماء عبر غشاء شبه منفذ من منطقة تركيز الأملاح المنخفض إلى المرتفع. أساسية لعمل كل الخلايا الحية ولتحلية المياه بالأسموزية العكسية."},
+  {q:"ما مقدار الماء الذي يُفقده جسم الإنسان يومياً عبر التنفس والتعرق والبول؟",options:["0.5 لتر","1 لتر","2-2.5 لتر","5 لتر"],correct:2,explain:"الجسم يفقد 2-2.5 لتر يومياً: 0.5 لتر بالتنفس، 0.5 لتر بالتعرق، 1.5 لتر بالبول. لهذا يجب شرب 2 لتر على الأقل يومياً."},
+  {q:"ما الكائن الحي الذي يُعرف بـ'الدب المائي' وهو أكثر الكائنات مقاومةً للجفاف المطلق؟",options:["الإسفنج البحري","الطحلب الأحمر","التارديغراد (Tardigrade)","الديدان الخيطية"],correct:2,explain:"التارديغراد (Tardigrade) يمكنه فقدان 97% من مائه وتجفيف جسمه تماماً (الدخول في الكريبتوبيوزيس) والبقاء على قيد الحياة لعقود، ثم العودة للحياة بإضافة الماء!"},
+  {q:"ما آلية تحلية المياه المستخدمة في معظم محطات التحلية الحديثة؟",options:["التقطير الشمسي","التجميد","الأسموزية العكسية","التبخير الفلاشي"],correct:2,explain:"الأسموزية العكسية (RO) هي التقنية السائدة: ضخ الماء المالح بضغط عالٍ عبر أغشية شبه منفذة تمرر الماء النقي وتحجز الأملاح. أكثر كفاءةً من التقطير."},
+  {q:"ما الفرق بين الدورة الهيدرولوجية المفتوحة والمغلقة؟",options:["لا فرق بينهما","المفتوحة تشمل المحيطات والمغلقة لا","المغلقة في بحيرات لا منفذ لها والمفتوحة تتصل بالبحر","المفتوحة طبيعية والمغلقة صناعية"],correct:2,explain:"الأحواض المغلقة (مثل بحر قزوين وبحيرة تشاد) لا منفذ لها إلى البحر. الماء يتسرب أو يتبخر فقط. هذا يجعلها أكثر عرضةً للجفاف وارتفاع الملوحة."},
+  {q:"ما كمية الماء اللازمة لإنتاج لتر واحد من الوقود الحيوي (الإيثانول) من الذرة؟",options:["5 لترات","50 لتراً","700 لتر","4,000 لتر"],correct:3,explain:"إنتاج لتر واحد من الإيثانول من الذرة يحتاج ~4,000 لتر ماء (للري + المعالجة). هذا يُثير جدلاً كبيراً حول الوقود الحيوي في المناطق الجافة."},
+  {q:"ما الكائن البحري الذي يمتلك دماً أزرق اللون بسبب وجود النحاس بدلاً من الحديد؟",options:["الحبار","الأخطبوط","سرطان حدوة الحصان","الاثنان الأول والثالث"],correct:3,explain:"الأخطبوط والحبار وسرطان حدوة الحصان يمتلكون بروتين الهيموسيانين (يحتوي نحاساً) بدلاً من الهيموغلوبين. دمهم أزرق في الهواء وعديم اللون في الجسم."},
+
+  // ── الجيولوجيا والماء ──
+  {q:"ما الطبقة الجيولوجية التي تخزن المياه الجوفية وتسمح بتدفقها؟",options:["الطبقة الصماء (Aquiclude)","طبقة المياه الجوفية (Aquifer)","الطبقة المانعة (Aquitard)","الطبقة الرسوبية"],correct:1,explain:"الأحواض المائية الجوفية (Aquifer) هي طبقات صخرية أو رملية مسامية تخزن المياه وتسمح بتدفقها. المياه الجوفية العميقة أحياناً آلاف السنين عمراً!"},
+  {q:"ما السبب الرئيسي لتراجع بحيرة تشاد من 25,000 كم² إلى أقل من 1,500 كم² منذ الستينيات؟",options:["التغير المناخي فقط","الزراعة المفرطة للري فقط","التغير المناخي + الاستخدام البشري المفرط","الزلازل"],correct:2,explain:"تراجع بحيرة تشاد نتيجة مزيج من: انخفاض الأمطار بسبب التغير المناخي، وضخ كميات ضخمة لري الأراضي الزراعية المحيطة. مثال صارخ على الأزمة المائية!"},
+  {q:"ما أقدم المياه الجوفية المكتشفة على الأرض؟",options:["ألف سنة","مليون سنة","1.5 مليار سنة","10 مليار سنة"],correct:2,explain:"في 2013 اكتشف علماء في كندا مياهاً جوفية عمرها 1.5 مليار سنة في منجم في أونتاريو! هذه المياه معزولة تماماً ولم تتلامس مع الغلاف الجوي منذ عصر ما قبل التاريخ."},
+  {q:"ما الفرق بين طبقة المياه الجوفية المضغوطة (Confined) وغير المضغوطة (Unconfined)؟",options:["لا فرق عملي","المضغوطة محاطة بطبقات صماء والضغط فيها أعلى من الجوي","غير المضغوطة تحت الأرض والمضغوطة فوقها","المضغوطة في الجبال فقط"],correct:1,explain:"الطبقة المضغوطة (Artesian) محاطة بطبقات صماء وضغطها يتجاوز الضغط الجوي. حفر بئر فيها يتدفق الماء تلقائياً للأعلى دون ضخ! مهمة جداً في المناطق الجافة."},
+  {q:"ما الظاهرة الجيولوجية التي تُشكّل الكهوف والمغارات في الصخور الكلسية؟",options:["النشاط البركاني","تأثير الموجات البحرية","إذابة الصخر الجيري بالمياه الحمضية (الكارست)","الزلازل"],correct:2,explain:"الكارست: مياه الأمطار تمتص CO₂ لتُكوّن حمض الكربونيك الضعيف الذي يُذيب الحجر الجيري (CaCO₃) ببطء على مدى آلاف السنين مُكوِّناً كهوفاً ضخمة وتشكيلات صواعد وهوابط."},
+  {q:"ما الفترة الجيولوجية التي ارتفعت فيها منسوبات البحار إلى 120 متر أعلى من مستواها الحالي؟",options:["العصر الجليدي الأخير","العصر الحجري الجيري","منتصف الميوسين (15 مليون سنة)","البليوسين الأوسط (3 ملايين سنة)"],correct:3,explain:"خلال البليوسين الأوسط (المرحلة الدافئة 3.3-3 مليون سنة)، كانت درجات الحرارة 2-3°م أعلى من اليوم ومنسوب البحر 10-25 متراً أعلى. السيناريو المتوقع لمستقبلنا!"},
+  {q:"ما التركيب الجيولوجي الذي يُخزّن الطاقة الحرارية الأرضية في شكل بخار ماء؟",options:["الطبقة الصهارية","النظام الحراري الأرضي (Geothermal System)","الطبقة الجوفية","الصفائح التكتونية"],correct:1,explain:"الأنظمة الحرارية الأرضية: الماء يتسرب عمقاً ويتسخن بحرارة باطن الأرض ليعود كبخار أو ماء ساخن. تستخدمه إيسلندا لتوليد 30% من كهربائها!"},
+  {q:"ما أكبر نهر في العالم من حيث حجم الماء المتدفق؟",options:["النيل","المسيسيبي","الأمازون","يانغتسي"],correct:2,explain:"نهر الأمازون هو الأكبر عالمياً من حيث التدفق المائي (~20% من تدفق أنهار العالم). يُفرغ في الأطلسي 209,000 م³/ثانية رغم أن النيل أطول منه."},
+  {q:"ما ظاهرة التلوث بالنترات في المياه الجوفية وخطرها؟",options:["يُسبب الماء كدراً","يُسبب مرض الأطفال الزرق (Methemoglobinemia)","يُجعل الماء مراً","يُسبب التصلب"],correct:1,explain:"التلوث بالنترات من الأسمدة الزراعية يُسبب مرض 'الطفل الأزرق' (Methemoglobinemia) للرضع: تُحول النترات الهيموغلوبين لشكل لا يحمل أكسجيناً مما يُسبب زرقة الطفل ونقص الأكسجين."},
+  {q:"ما الخطر البيئي لارتفاع منسوب البحر المتوقع بسبب التغير المناخي على دلتا النيل؟",options:["لا خطر","غرق أجزاء من الدلتا وتملح التربة","ارتفاع درجة حرارة المياه فقط","تلوث المياه بالبلاستيك"],correct:1,explain:"ارتفاع منسوب البحر 1 متر سيُغرق 12-15% من دلتا النيل المأهولة بأكثر من 6 ملايين شخص، وتملح التربة الزراعية التي تُنتج 40% من الغذاء المصري. تهديد وجودي حقيقي!"},
+
+  // ── الكيمياء الكمية والفيزياء الدقيقة ──
+  {q:"ما زاوية الرابطة H-O-H في جزيء الماء؟",options:["90°","104.5°","109.5°","180°"],correct:1,explain:"زاوية الرابطة في جزيء الماء 104.5° (أقل من الزاوية الرباعية 109.5° بسبب ضغط الأزواج الحرة على أكسجين الماء). هذا يجعل الجزيء قطبياً ويُفسر كثيراً من خصائصه."},
+  {q:"ما عدد الروابط الهيدروجينية التي يمكن لجزيء ماء واحد أن يُكوّنها؟",options:["1","2","4","6"],correct:2,explain:"كل جزيء ماء يستطيع تكوين 4 روابط هيدروجينية: 2 كمانح (عبر ذرتي H) و2 كمستقبل (عبر الأزواج الحرة لـ O). هذا الشبك الثلاثي الأبعاد يُفسر خصائص الماء الفريدة."},
+  {q:"ما المقصود بـ'التآزر الكمي' في انتقال البروتونات عبر الأغشية البيولوجية في الماء؟",options:["انتقال البروتونات بالانتشار العادي","النفق الكمي لبروتونات H⁺ عبر الماء (سلسلة Grotthuss)","تحليل الماء بالأشعة فوق البنفسجية","تأين الماء بالكهرباء"],correct:1,explain:"آلية Grotthuss: البروتونات (H⁺) لا تنتقل فعلياً عبر الماء، بل يحدث 'إعادة ترتيب' للروابط الهيدروجينية بسرعة خارقة (~10⁻¹³ ثانية). هذا يُفسر الموصلية الكهربائية العالية للأحماض في الماء."},
+  {q:"ما الظاهرة الكمية في جزيء الماء المسؤولة عن امتصاص الأشعة تحت الحمراء؟",options:["الرنين المغناطيسي النووي","الانتقالات الإلكترونية","اهتزازات الشد والانحناء للروابط","التفكيك الضوئي"],correct:2,explain:"جزيء الماء يمتص الأشعة تحت الحمراء بسبب اهتزازات الشد (O-H stretching) والانحناء (H-O-H bending) للروابط. هذا هو ما يجعل بخار الماء غازاً دفيئاً قوياً جداً."},
+  {q:"ما تأثير الضغط الهيدروستاتيكي على نقطة تجمد الماء؟",options:["يرفعها","لا تأثير","يخفضها قليلاً","يرفعها كثيراً"],correct:2,explain:"زيادة الضغط تخفض نقطة تجمد الماء قليلاً (0.0075°م لكل ضغط جوي). هذا التأثير الفريد للماء (السلوك العكسي) يُساعد على الانزلاق على الجليد تحت الضغط."},
+  {q:"ما الخاصية الشاذة (Anomalous) للماء عند التجمد مقارنة بمعظم المواد؟",options:["يُصدر حرارة عند التجمد","يتمدد عند التجمد","يتقلص عند التجمد","لا يتغير حجمه"],correct:1,explain:"الماء يتمدد عند التجمد بنسبة ~9%، عكس معظم المواد التي تتقلص. هذا يجعل الجليد أقل كثافة من الماء (يطفو). لولا هذا لتجمدت البحيرات من القاع للأعلى مما يقضي على الأسماك!"},
+  {q:"ما عدد الحالات الطورية (Phases) للمياه المكتشفة علمياً حتى الآن؟",options:["3 فقط (صلب، سائل، غاز)","5","17 حالة طورية على الأقل","لا نهاية"],correct:2,explain:"الماء له 17 نوعاً مكتشفاً من الجليد (Ice I إلى Ice XVI وأكثر) إضافةً للماء السائل فوق الحرج وتحته. كل شكل له بنية بلورية وخصائص مختلفة عند ضغوط ودرجات حرارة متفاوتة."},
+
+  // ── التلوث والمعالجة ──
+  {q:"ما أخطر ملوثات المياه على الصحة العالمية وفق منظمة الصحة العالمية؟",options:["الرصاص فقط","البكتيريا والفيروسات (الملوثات البيولوجية)","البلاستيك فقط","النترات فقط"],correct:1,explain:"الملوثات البيولوجية (بكتيريا E. coli، فيروسات، طفيليات) هي الأخطر عالمياً. تُسبب 2 مليون وفاة سنوياً معظمها أطفال. الكوليرا والتيفويد والتهاب الكبد A أمثلة كلاسيكية."},
+  {q:"ما ظاهرة الإثراء الغذائي (Eutrophication) في المسطحات المائية؟",options:["نمو الأسماك المفيدة","انتشار الطحالب الضارة بسبب زيادة النترات والفوسفات","تنقية المياه طبيعياً","ارتفاع درجة حرارة الماء"],correct:1,explain:"الإثراء الغذائي: تدفق النترات والفوسفات (من الأسمدة والصرف الصحي) يُسبب انتشاراً مفرطاً للطحالب الخضراء المزرقة، التي تستهلك الأكسجين عند تحللها وتقتل الأسماك وتُطلق سمومها."},
+  {q:"ما التقنية الأحدث لإزالة الميكروبلاستيك من مياه الشرب؟",options:["الترشيح بالرمل فقط","الترشيح النانوي والأغشية الدقيقة","الكلور","التبخير"],correct:1,explain:"الميكروبلاستيك (<5 مم) يتطلب تقنيات متقدمة: الأغشية الدقيقة والنانوية، والتخثر الكهروكيميائي. 83% من مياه الصنبور حول العالم ملوثة بالميكروبلاستيك وفق دراسة 2017!"},
+  {q:"ما المركب الكيميائي المسؤول عن رائحة الماء بعد المطر (Petrichor)؟",options:["الأوزون فقط","Geosmin (جيوسمين) من بكتيريا الأرض + أحماض النباتات","ثاني أكسيد الكربون","الكبريت"],correct:1,explain:"رائحة المطر (Petrichor) تنتج من مزيج: Geosmin (مركب عضوي تُفرزه بكتيريا Actinomycetes في التربة) + أحماض تُفرزها النباتات. أنف الإنسان يُحسّ Geosmin عند 5 أجزاء من التريليون!"},
+  {q:"ما تأثير ارتفاع ملوحة مياه الري على التربة الزراعية على المدى البعيد؟",options:["يُحسّن التربة","تملح التربة وفقدان خصوبتها (Salinization)","لا تأثير","يزيد نمو النباتات"],correct:1,explain:"تملح التربة (Salinization) يُدمر الزراعة: تراكم أملاح في التربة يمنع النباتات من امتصاص الماء (ضغط أسموزي عكسي). أكثر من 20% من الأراضي الزراعية المروية في العالم متملحة!"},
+
+  // ── الطاقة المائية والبيئة ──
+  {q:"ما نسبة الكهرباء العالمية التي تُولّدها الطاقة الكهرومائية؟",options:["2%","16%","35%","50%"],correct:1,explain:"الطاقة الكهرومائية تُولّد حوالي 16% من إجمالي الكهرباء العالمية وأكثر من 60% من الطاقة المتجددة. أكبر محطة في العالم: سد الممرات الثلاثة في الصين (22,500 ميغاواط)."},
+  {q:"كيف يؤثر بناء السدود على هجرة الأسماك؟",options:["لا تأثير","تُسهّل الهجرة","تحجب مسار الهجرة وتُهدد التنوع البيولوجي","تُزيد أعداد الأسماك"],correct:2,explain:"السدود تقطع مسارات هجرة الأسماك كالسلمون للوصول لمناطق التكاثر. أسهمت في انهيار أعداد السلمون بـ90% في بعض الأنهار. تُستخدم 'سلالم السمك' كحل جزئي."},
+  {q:"ما حجم خزان بحيرة ناصر (بحيرة النوبة) خلف السد العالي؟",options:["10 مليار م³","57 مليار م³","132 مليار م³","200 مليار م³"],correct:2,explain:"بحيرة ناصر خلف السد العالي تسع 132 مليار م³ (طاقة التخزين الكلية)، وطاقة التخزين الفعلية ~74 مليار م³. هي واحدة من أكبر البحيرات الاصطناعية في العالم."},
+  {q:"ما الفرق بين المياه الرمادية والمياه السوداء في إدارة المياه؟",options:["لا فرق","الرمادية من المطابخ والحمامات والسوداء من المراحيض","الرمادية نظيفة والسوداء ملوثة كيميائياً","الرمادية من الزراعة"],correct:1,explain:"المياه الرمادية: ناتجة من الغسيل والمطبخ والاستحمام — قابلة لإعادة معالجة وري النباتات. المياه السوداء: من المراحيض — تحتاج معالجة أعمق بسبب الملوثات البيولوجية الخطيرة."},
+  {q:"ما البصمة المائية (Water Footprint) لإنتاج لتر واحد من القهوة؟",options:["لتر واحد","10 لترات","140 لتراً","1,000 لتر"],correct:2,explain:"إنتاج لتر واحد من القهوة يحتاج ~140 لتراً من الماء لزراعة البن وتصنيعه. كوب قهوة واحد = 140 لتر ماء! هذا المفهوم يُساعد على فهم الاستهلاك غير المباشر للمياه."},
+  {q:"ما نسبة المياه التي يمكن إنقاذها باستخدام الري بالتنقيط بدل الري بالغمر؟",options:["10%","30%","50-70%","90%"],correct:2,explain:"الري بالتنقيط يوفر 50-70% من المياه مقارنة بالري بالغمر، لأن الماء يُوصل مباشرة لجذور النبات بدلاً من غمر التربة والتبخير. يُستخدم بنجاح في إسرائيل والأردن ومصر."},
+
+  // ── المياه الكونية ──
+  {q:"أين اكتُشفت أكبر احتياطيات الماء خارج الأرض في المجموعة الشمسية؟",options:["المريخ فقط","أوروبا (قمر المشتري) وإنسيلادوس (قمر زحل)","الزهرة","عطارد"],correct:1,explain:"أوروبا تمتلك محيطاً مائياً تحت غطائها الجليدي أعمق من محيطات الأرض. إنسيلادوس يُطلق بخار ماء من أعماقه. هذه أكثر الأماكن احتمالاً لوجود حياة في المجموعة الشمسية!"},
+  {q:"ما نظرية 'الماء البدائي' (Primordial Water) حول أصل مياه الأرض؟",options:["تكوّنت كلها من البراكين","جاء معظمها من الكويكبات والمذنبات","تكوّنت من اندماج H وO في الغلاف الجوي","ظهرت من الصخور الأولى"],correct:1,explain:"الأدلة الجيوكيميائية تُشير إلى أن معظم مياه الأرض جاءت من قصف الكويكبات والمذنبات الثلجية خلال أواخر القصف الشديد (Late Heavy Bombardment) قبل 4 مليار سنة."},
+  {q:"كيف يمكن رصد وجود الماء في الغلاف الجوي لكواكب خارج المجموعة الشمسية (Exoplanets)؟",options:["التصوير المباشر","تحليل الطيف الضوئي أثناء العبور (Transit Spectroscopy)","الرادار","المسبارات الفضائية"],correct:1,explain:"عندما يعبر كوكب أمام نجمه، يمتص الضوء بأطوال موجية محددة حسب مكونات غلافه الجوي. بخار الماء له بصمة طيفية واضحة. رصدته مركبة جيمس ويب في عدة كواكب بعيدة!"},
+  {q:"ما الكمية التقريبية للمياه في الوشاح الأرضي (Earth's Mantle) مقارنة بالمحيطات؟",options:["أقل بكثير من المحيطات","مثل المحيطات تقريباً","أكثر من 3 أضعاف المحيطات","لا توجد مياه في الوشاح"],correct:2,explain:"دراسات جيوفيزيائية تُشير إلى أن الوشاح الأرضي يحتوي على كمية ماء تعادل 3-5 أضعاف حجم المحيطات، في شكل مرتبط كيميائياً بالمعادن (Ringwoodite وغيرها)!"},
+  {q:"ما الفرق بين ظاهرة النينيو والنينيا وتأثيرهما على توزيع الأمطار؟",options:["لا فرق بينهما","النينيو يُسبب جفافاً في جنوب شرق آسيا وفيضانات في أمريكا الجنوبية والعكس للنينيا","كلاهما يُقلل الأمطار عالمياً","كلاهما يزيد الأمطار"],correct:1,explain:"النينيو: ارتفاع حرارة المحيط الهادي يُسبب جفافاً في أستراليا وإندونيسيا وفيضانات في بيرو وتكساس. النينيا: العكس تماماً."},
+  {q:"ما نسبة الجليد القطبي المذاب لو ذابت كل الأنهار الجليدية وقطبي الأرض؟",options:["لا يؤثر","ارتفاع 1 متر","ارتفاع 10-20 متر","ارتفاع 65-70 متر"],correct:3,explain:"لو ذاب كل الجليد سيرتفع منسوب البحر 65-70 متراً وستُغرق معظم المدن الساحلية."},
+  {q:"ما معدل ذوبان جليد غرينلاند سنوياً في السنوات الأخيرة؟",options:["لا ذوبان","10 مليار طن/سنة","280 مليار طن/سنة","تريليون طن/سنة"],correct:2,explain:"غرينلاند تفقد ~280 مليار طن من الجليد سنوياً (2019-2023)، ستة أضعاف ما كانت تفقده في الثمانينيات."},
+
+  // ── الفيزياء الحيوية والماء ──
+  {q:"ما الدور الأساسي للماء في عملية التمثيل الضوئي؟",options:["مصدر الكربون فقط","مصدر الإلكترونات والأكسجين المُنتَج","حامل للأصباغ","مصدر الطاقة الضوئية"],correct:1,explain:"في التمثيل الضوئي: 6CO₂ + 6H₂O + ضوء → C₆H₁₂O₆ + 6O₂. الماء هو مصدر الإلكترونات اللازمة لاختزال CO₂، والأكسجين المُنتَج يأتي 100% من جزيئات الماء!"},
+  {q:"ما حجم الماء الذي يحمله نهر النيل سنوياً عند أسوان في المتوسط؟",options:["10 مليار م³","55 مليار م³","84 مليار م³","200 مليار م³"],correct:2,explain:"متوسط تدفق النيل عند أسوان ~84 مليار م³/سنة تاريخياً، لكنه انخفض في العقود الأخيرة. اتفاقية 1959 تُقسّمه: 55.5 لمصر و18.5 للسودان."},
+  {q:"ما الظاهرة البيولوجية التي تجعل الضفادع حساسة جداً لتلوث المياه؟",options:["لديها جلد رقيق جداً يمتص الملوثات مباشرة","تشرب كميات كبيرة من الماء","تعيش فقط في الماء النقي","تتكاثر ببطء"],correct:0,explain:"جلد الضفادع شبه منفذ يمتص الأكسجين والماء والملوثات مباشرة. لهذا تُعتبر 'مؤشراً بيولوجياً' حساساً لجودة المياه. تراجع أعدادها عالمياً ينبّه لتدهور البيئة المائية."},
+  {q:"ما التأثير الكيميائي للحموضة (pH منخفض) على الكائنات البحرية ذات الصدفة؟",options:["لا تأثير","تذوب أصدافها الكلسية","تنمو أسرع","تُغير لونها"],correct:1,explain:"تحمّض المحيطات (انخفاض pH من 8.2 إلى 8.1 منذ الثورة الصناعية) يُذيب كربونات الكالسيوم التي تبني صدف المحار والمرجان والقواقع. المحيط يمتص 30% من CO₂ البشري."},
+  {q:"ما الكائن البحري الذي يُنتج 'الهيالورونات' التي تُستخدم في الطب الحديث من الماء؟",options:["قنديل البحر","سمك القرش","الإسفنج البحري","الخيار البحري"],correct:0,explain:"قنديل البحر يتكون من 95% ماء ويُنتج مواد حيوية فريدة. بروتين الهيالورونات المستخرج منه يُستخدم في جراحة العيون والمفاصل الاصطناعية. جسمه مذهل من الناحية الفيزيائية!"},
+  {q:"ما سبب 'المد الأحمر' (Red Tide) في البحار؟",options:["تلوث نفطي","تكاثر مفرط لطحالب دينوفلاجيلات سامة","ارتفاع درجة حرارة الماء فقط","صرف صحي"],correct:1,explain:"المد الأحمر: تكاثر انفجاري لطحالب دينوفلاجيلات بسبب زيادة النترات والفوسفات ودرجات الحرارة. تُنتج سمومًا تقتل الأسماك والثدييات البحرية وتجعل المحار خطيراً للأكل."},
+  {q:"ما الفرق الأساسي بين دورة الماء في المناطق الجافة ومناطق الغابات الاستوائية؟",options:["لا فرق","في الغابات التبخر النتحي يُعيد 75% من الأمطار للغلاف الجوي، وفي الصحاري أقل من 5%","الصحاري لا دورة مائية فيها","الغابات لا تمتص مياه الأمطار"],correct:1,explain:"الغابات الاستوائية 'تصنع مطرها': أشجارها تُبخّر كميات ضخمة تكوّن سحباً تُمطر مجدداً. قطع الغابات يُكسر هذه الدورة ويُحوّل المنطقة لصحراء — ما يحدث فعلاً في الأمازون!"},
+  {q:"ما حجم المياه المُهدَرة في شبكات توزيع مياه الشرب في مصر بسبب التسرب والفاقد؟",options:["أقل من 5%","15-20%","30-40%","أكثر من 50%"],correct:2,explain:"يُقدَّر الفاقد في شبكات المياه المصرية بـ30-40% من المياه المُضخّة، وفق تقارير وزارة الموارد المائية. تجديد الشبكات القديمة وتركيب عدادات ذكية من الحلول المطروحة."},
+  {q:"ما الآلية الجيولوجية التي تُكوّن الينابيع الحارة (Hot Springs)؟",options:["ذوبان الجليد","تسخين المياه الجوفية بحرارة الصهارة البركانية","تفاعل كيميائي في التربة","تسخين شمسي"],correct:1,explain:"المياه الجوفية تتسرب عمقاً حيث تتسخن بحرارة الصهارة أو النشاط الحراري الأرضي، ثم تصعد كينابيع حارة. بعضها يصل 96°م (مثل يلوستون). تُستخدم في العلاج الطبيعي والطاقة."},
+  {q:"ما أطول نهر في أفريقيا والعالم؟",options:["نهر الكونغو","نهر الأمازون","نهر النيل","نهر المسيسيبي"],correct:2,explain:"نهر النيل هو الأطول في العالم بطول ~6,650 كم. ينبع من المرتفعات الإثيوبية والبحيرات الاستوائية ويصب في البحر المتوسط. مصدر الحضارة المصرية منذ آلاف السنين."},
+  {q:"ما ظاهرة التجوية الكيميائية للصخور بفعل الماء ودورها الجيولوجي؟",options:["تُقسّي الصخور","تُذيب المعادن وتُحرّر العناصر الغذائية للتربة","تُكوّن الجبال","تُزيد الضغط على الصخور"],correct:1,explain:"الماء يُفكّك الصخور كيميائياً (hydrolysis، oxidation): يُحرّر الكالسيوم والبوتاسيوم والحديد ويُكوّن التربة الخصبة. هذه العملية على مدى ملايين السنين هي ما يُتيح الزراعة والحياة على اليابسة."},
+  {q:"ما مدى تأثير درجة حرارة الماء على تنوع الكائنات البحرية؟",options:["لا علاقة","الأعماق الباردة أغنى بالتنوع","الشعاب المرجانية الدافئة (24-27°م) هي الأغنى بالتنوع البيولوجي","المياه الباردة القطبية الأغنى"],correct:2,explain:"الشعاب المرجانية الاستوائية في مياه 24-27°م تُشكّل <1% من قاع المحيط لكنها تُؤوي >25% من الأنواع البحرية. الاحترار فوق 2°م يُسبب ابيضاض المرجان وموته — كارثة بيئية!"},
+  {q:"ما الدور المحوري للمياه الجوفية في الأمن الغذائي العالمي؟",options:["لا دور لها","تُروي 40% من الأراضي الزراعية العالمية","تُروي 5% فقط","تُستخدم للشرب فقط"],correct:1,explain:"المياه الجوفية تُروي ~40% من الأراضي الزراعية عالمياً وتُنتج أكثر من 40% من الغذاء. لكن استنزافها أسرع من تجددها في معظم المناطق."},
+
+  // ── أسئلة إضافية متنوعة ──
+  {q:"ما نسبة الأكسجين في جزيء الماء بالوزن؟",options:["11%","50%","89%","99%"],correct:2,explain:"جزيء H₂O: الأكسجين وزنه 16 وحدة والهيدروجين 2×1=2 وحدة. نسبة الأكسجين = 16/18 = 89% من وزن الماء. لهذا الماء مصدر ممتاز للأكسجين في التحليل الكهربائي!"},
+  {q:"ما مبدأ عمل محطات معالجة مياه الصرف الصحي البيولوجية؟",options:["إضافة كيماويات قاتلة للجراثيم","استخدام بكتيريا تُحلّل المواد العضوية","تبخير الماء","الترشيح الميكانيكي فقط"],correct:1,explain:"المعالجة البيولوجية: بكتيريا هوائية وأخرى لاهوائية تُحلّل المواد العضوية في مياه الصرف إلى ثاني أكسيد الكربون وماء وغاز الميثان. أرخص وأفضل بيئياً من المعالجة الكيميائية البحتة."},
+  {q:"ما ظاهرة 'حرب المياه' (Water Wars) المتوقعة وأبرز مناطق التوتر؟",options:["لا علاقة للمياه بالسياسة","نزاعات على مياه الأنهار الدولية كالنيل ونهر الأردن والميكونغ","المياه وفيرة ولا نزاعات عليها","النزاعات على مياه الأمطار فقط"],correct:1,explain:"أكثر من 300 نهر وبحيرة دولية تعبر حدوداً سياسية. أبرز نقاط التوتر: نهر النيل (مصر-إثيوبيا-السودان)، نهر الأردن (إسرائيل-الأردن-فلسطين)، نهر الميكونغ (الصين-دول جنوب شرق آسيا)."},
+  {q:"ما الوزن الجزيئي للماء (H₂O)؟",options:["10 جم/مول","18 جم/مول","36 جم/مول","100 جم/مول"],correct:1,explain:"الوزن الجزيئي للماء = 2×(وزن H) + وزن O = 2×1 + 16 = 18 جم/مول. هذا يعني أن 18 جرام ماء = مول واحد = 6.022×10²³ جزيء ماء!"},
+  {q:"ما الفرق بين تحلية الماء بالتقطير وبالأسموزية العكسية من حيث استهلاك الطاقة؟",options:["التقطير أوفر في الطاقة","الأسموزية العكسية أوفر بكثير (3-5 مرات)","نفس الاستهلاك","الأسموزية العكسية أكثر استهلاكاً"],correct:1,explain:"الأسموزية العكسية تحتاج 3-5 كيلوواط ساعة/م³، بينما التقطير يحتاج 10-15 كيلوواط ساعة/م³. لهذا تحوّلت معظم المحطات الجديدة للأسموزية العكسية للتوفير في الطاقة."},
+  {q:"ما أسرع تقنية لاختبار جودة مياه الشرب ميدانياً؟",options:["المزرعة البكتيريولوجية (24-48 ساعة)","اختبار الـ PCR (6 ساعات)","الاختبارات الكيميائية السريعة (دقائق)","لا توجد تقنية سريعة"],correct:2,explain:"اختبارات الكلور والـ pH والنترات والعكورة يمكن إجراؤها في دقائق بأجهزة محمولة. لكن الاختبارات البيولوجية الدقيقة تحتاج 24-48 ساعة في المختبر. الـ PCR يتيح تحديد الأنواع البكتيرية في ساعات."},
+  {q:"ما ظاهرة 'ذاكرة الماء' التي يدّعي بعضهم وجودها؟",options:["ظاهرة علمية موثقة","مفهوم علم زائف لا أساس علمي له","جزئياً صحيح","تُدرَّس في الجامعات"],correct:1,explain:"'ذاكرة الماء' ادعاء يقول إن الماء 'يتذكر' المواد التي خالطته. هذا علم زائف مرفوض بالإجماع العلمي. جزيئات الماء تُعيد ترتيبها كل 10⁻¹² ثانية — لا ذاكرة ممكنة فيزيائياً."},
+  {q:"ما كمية المياه اللازمة لإنتاج طن واحد من الفولاذ؟",options:["100 لتر","1,000 لتر","25,000 لتر","200,000 لتر"],correct:2,explain:"إنتاج طن واحد من الفولاذ يحتاج ~25,000-50,000 لتر ماء للتبريد والمعالجة. الصناعة الثقيلة هي ثاني أكبر مستهلك للمياه بعد الزراعة، وتُمثل 22% من استهلاك المياه العالمي."},
+  {q:"ما ظاهرة 'الماء الخارق التبريد' (Supercooled Water)؟",options:["ماء يتجمد فوق 0°م","ماء سائل يبقى سائلاً تحت 0°م في غياب نوى التبلور","ماء مُسخّن فوق 100°م","ماء مقطّر تماماً"],correct:1,explain:"الماء النقي جداً في وعاء نظيف يمكن تبريده حتى -40°م دون أن يتجمد! يتجمد فجأة عند الاهتزاز. يحدث هذا في السحب الباردة ومهم جداً في الأرصاد الجوية وفيزياء الغلاف الجوي."},
+  {q:"ما دور نهر الكونغو في المناخ العالمي؟",options:["لا دور له","هو ثاني أكبر نهر بالتدفق ويُرطّب جنوب أفريقيا بالكامل","يُجفّف المنطقة","يُلوّث الهواء"],correct:1,explain:"نهر الكونغو (ثاني أكبر تدفق عالمياً بعد الأمازون) وغابات حوضه تُطلق كميات هائلة من بخار الماء تُشكّل سحباً تُمطر جنوب ووسط أفريقيا. هو 'مكيّف هواء' أفريقيا الوسطى."},
+];
+
+let quizQueue = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+let quizWrong = 0;
+let quizAnswered = false;
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  quizQueue = shuffleArray(QUIZ_QUESTIONS).slice(0, 10);
+  quizIndex = 0; quizCorrect = 0; quizWrong = 0;
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-question-wrap').style.display = 'block';
+  document.getElementById('q-correct').textContent = 0;
+  document.getElementById('q-wrong').textContent = 0;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = quizQueue[quizIndex];
+  quizAnswered = false;
+  document.getElementById('q-num').textContent = quizIndex + 1;
+  document.getElementById('quiz-q-text').textContent = q.q;
+  document.getElementById('quiz-feedback').style.display = 'none';
+  document.getElementById('quiz-next-btn').style.display = 'none';
+
+  const opts = document.getElementById('quiz-options');
+  opts.innerHTML = q.options.map((o, i) => `
+    <button onclick="quizAnswer(${i})" class="quiz-opt-btn" data-idx="${i}">
+      <span class="quiz-opt-letter">${['أ','ب','ج','د'][i]}</span>
+      <span>${o}</span>
+    </button>`).join('');
+}
+
+function quizAnswer(idx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQueue[quizIndex];
+  const isCorrect = idx === q.correct;
+  if (isCorrect) { quizCorrect++; document.getElementById('q-correct').textContent = quizCorrect; }
+  else           { quizWrong++;   document.getElementById('q-wrong').textContent = quizWrong; }
+
+  // Style buttons
+  document.querySelectorAll('.quiz-opt-btn').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('quiz-correct');
+    else if (i === idx && !isCorrect) btn.classList.add('quiz-wrong');
+  });
+
+  // Feedback
+  const fb = document.getElementById('quiz-feedback');
+  fb.style.display = 'block';
+  fb.innerHTML = `<div class="quiz-feedback-box ${isCorrect ? 'quiz-fb-correct' : 'quiz-fb-wrong'}">
+    <div style="font-weight:700;margin-bottom:4px">${isCorrect ? '✅ إجابة صحيحة!' : '❌ إجابة خاطئة'}</div>
+    <div style="font-size:0.85rem;line-height:1.6;opacity:0.9">${q.explain}</div>
+  </div>`;
+
+  document.getElementById('quiz-next-btn').style.display = 'block';
+  document.getElementById('quiz-next-btn').textContent = quizIndex + 1 >= quizQueue.length ? 'عرض النتيجة 🏆' : 'السؤال التالي ←';
+}
+
+function quizNext() {
+  quizIndex++;
+  if (quizIndex >= quizQueue.length) {
+    showQuizResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-question-wrap').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('quiz-final-score').textContent = quizCorrect;
+  const pct = (quizCorrect / quizQueue.length) * 100;
+  let emoji, title, msg;
+  if (pct === 100)     { emoji='🏆'; title='مثالي!'; msg='أنت خبير مياه حقيقي!'; }
+  else if (pct >= 80)  { emoji='🌟'; title='ممتاز!'; msg='معلوماتك عن المياه رائعة جداً'; }
+  else if (pct >= 60)  { emoji='👍'; title='جيد جداً!'; msg='مستواك كويس، تابع التعلم!'; }
+  else if (pct >= 40)  { emoji='💧'; title='مقبول'; msg='كمّل قراءة قسم الحقائق وارجع اختبر نفسك'; }
+  else                  { emoji='📚'; title='تحتاج تعلم أكثر'; msg='اطلع على قسم الحقائق وجرب تاني!'; }
+  document.getElementById('quiz-result-emoji').textContent = emoji;
+  document.getElementById('quiz-result-title').textContent = title;
+  document.getElementById('quiz-result-msg').textContent = msg;
+}
+
+// ── DRAWER ──────────────────────────────────────
+function toggleMobileMenu() {
+  document.getElementById('mobile-drawer').classList.toggle('open');
+  document.querySelector('.drawer-overlay').classList.toggle('open');
+}
+function closeDrawer() {
+  document.getElementById('mobile-drawer').classList.remove('open');
+  document.querySelector('.drawer-overlay').classList.remove('open');
+}
+function showTabDrawer(id, el) {
+  showTab(id, null);
+  document.querySelectorAll('.drawer-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  // sync tab-btn
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+  });
+  closeDrawer();
+}
+
+// ── DARK MODE ──────────────────────────────────
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('darkMode', isDark ? '1' : '0');
+  updateDarkIcons(isDark);
+}
+function updateDarkIcons(isDark) {
+  const drawerIcon = document.getElementById('drawer-dark-icon');
+  const drawerLabel = document.getElementById('drawer-dark-label');
+  if (drawerIcon) drawerIcon.textContent = isDark ? '🌙' : '☀️';
+  if (drawerLabel) drawerLabel.textContent = isDark ? 'الوضع الفاتح' : 'الوضع الداكن';
+}
+
+// Apply saved preference on load
+(function() {
+  // الافتراضي: وضع مظلم — إلا لو المستخدم غيّره يدوياً لـ '0'
+  const savedMode = localStorage.getItem('darkMode');
+  if (savedMode !== '0') {
+    document.body.classList.add('dark');
+    document.addEventListener('DOMContentLoaded', () => { updateDarkIcons(true); });
+  }
+})();
+
+window.addEventListener('load', () => {
+  // Replace all data-lucide elements with inline SVG
+  document.querySelectorAll('[data-lucide]').forEach(el => {
+    const name = el.getAttribute('data-lucide');
+    const styleAttr = el.getAttribute('style') || '';
+    // Extract stroke color from style
+    const strokeMatch = styleAttr.match(/stroke:\s*([^;]+)/);
+    const color = strokeMatch ? strokeMatch[1].trim() : 'currentColor';
+    // Extract width/height from style
+    const wMatch = styleAttr.match(/width:\s*([\d.]+)px/);
+    const size = wMatch ? parseFloat(wMatch[1]) : 18;
+    const svgStr = ic(name, color, size);
+    const wrapper = document.createElement('span');
+    wrapper.innerHTML = svgStr;
+    el.replaceWith(wrapper.firstChild);
+  });
+
+  buildWeeklyChart();
+  buildMonthlyChart();
+  buildChallenges();
+  buildAchievements();
+  checkAchievements();
+  calcTotal();
+  // init slider position
+  setTimeout(() => { const active = document.querySelector('.tab-btn.active'); moveSlider(active); }, 50);
+  // init quiz
+  startQuiz();
+
+  // تحميل بيانات اليوم من الـ localStorage
+  const stored = loadData();
+  const todayVal = stored[todayKey()];
+  if (todayVal) {
+    document.getElementById('daily-input').value = todayVal;
+    document.getElementById('today-usage').textContent = todayVal;
+    const goal = parseInt(document.getElementById('goal-input').value) || 120;
+    const pct = Math.min(Math.round((todayVal / goal) * 100), 100);
+    document.getElementById('meter-pct').textContent = pct + '%';
+    document.getElementById('goal-pct').textContent = pct;
+    setTimeout(() => {
+      const r = 64, circ = 2 * Math.PI * r;
+      document.getElementById('meter-fill').style.strokeDashoffset = circ * (1 - pct/100);
+    }, 300);
+  } else {
+    setTimeout(() => {
+      const r = 64, circ = 2 * Math.PI * r;
+      document.getElementById('meter-fill').style.strokeDashoffset = circ * 0.37;
+    }, 300);
+  }
+});
+</script>
+</body>
+</html>
