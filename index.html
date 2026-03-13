@@ -2526,6 +2526,10 @@ function startQuiz() {
   renderQuestion();
 }
 
+// الـ shuffled options للسؤال الحالي
+let currentShuffledOptions = [];
+let currentCorrectShuffledIdx = 0;
+
 function renderQuestion() {
   const q = quizQueue[quizIndex];
   quizAnswered = false;
@@ -2534,26 +2538,30 @@ function renderQuestion() {
   document.getElementById('quiz-feedback').style.display = 'none';
   document.getElementById('quiz-next-btn').style.display = 'none';
 
+  // Shuffle options مع تتبع الإجابة الصحيحة
+  const correctText = q.options[q.correct];
+  currentShuffledOptions = shuffleArray(q.options.map((text, i) => ({ text, origIdx: i })));
+  currentCorrectShuffledIdx = currentShuffledOptions.findIndex(o => o.text === correctText);
+
   const opts = document.getElementById('quiz-options');
-  opts.innerHTML = q.options.map((o, i) => `
+  opts.innerHTML = currentShuffledOptions.map((o, i) => `
     <button onclick="quizAnswer(${i})" class="quiz-opt-btn" data-idx="${i}">
       <span class="quiz-opt-letter">${['أ','ب','ج','د'][i]}</span>
-      <span>${o}</span>
+      <span>${o.text}</span>
     </button>`).join('');
 }
 
 function quizAnswer(idx) {
   if (quizAnswered) return;
   quizAnswered = true;
-  const q = quizQueue[quizIndex];
-  const isCorrect = idx === q.correct;
+  const isCorrect = idx === currentCorrectShuffledIdx;
   if (isCorrect) { quizCorrect++; document.getElementById('q-correct').textContent = quizCorrect; }
   else           { quizWrong++;   document.getElementById('q-wrong').textContent = quizWrong; }
 
   // Style buttons
   document.querySelectorAll('.quiz-opt-btn').forEach((btn, i) => {
     btn.disabled = true;
-    if (i === q.correct) btn.classList.add('quiz-correct');
+    if (i === currentCorrectShuffledIdx) btn.classList.add('quiz-correct');
     else if (i === idx && !isCorrect) btn.classList.add('quiz-wrong');
   });
 
