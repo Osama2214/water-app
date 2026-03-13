@@ -537,13 +537,13 @@ function ic(name, color, size) {
 
   /* Small tablet / large mobile (500px - 768px) */
   @media(max-width:768px) {
-    nav { padding: 0 1rem; height: 56px; }
+    nav { padding: 0 1rem; height: 44px; }
     nav ul { display: none; }
     .logo { font-size: 1.1rem; }
     .logo-icon { width: 30px; height: 30px; font-size: 0.95rem; }
     .hamburger { display: flex; }
     main { padding: 0.3rem 1rem 6rem; overflow-x: hidden; }
-    .hero { padding: 0.5rem 1rem 0.8rem; }
+    .hero { padding: 2.5rem 1rem 0.8rem; }
     .hero p { font-size: 0.95rem; }
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
     .tabs { gap: 0.3rem; padding: 5px; }
@@ -558,7 +558,7 @@ function ic(name, color, size) {
 
   /* Mobile (max 500px) */
   @media(max-width:500px) {
-    nav { height: 52px; padding: 0 0.8rem; }
+    nav { height: 42px; padding: 0 0.8rem; }
     .hero h1 { font-size: 1.4rem; }
     .hero p { font-size: 0.82rem; margin-bottom: 1rem; }
     .hero-stats {
@@ -609,8 +609,8 @@ function ic(name, color, size) {
     background: rgba(10,37,64,0.97);
     backdrop-filter: blur(14px);
     border-top: 1px solid rgba(0,180,216,0.2);
-    padding: 10px 8px env(safe-area-inset-bottom, 10px);
-    min-height: 72px;
+    padding: 6px 8px env(safe-area-inset-bottom, 6px);
+    min-height: 60px;
   }
 
   .mobile-nav-inner {
@@ -646,13 +646,13 @@ function ic(name, color, size) {
     user-select: none;
     position: relative;
     z-index: 1;
-    min-height: 56px;
+    min-height: 46px;
   }
 
   .mobile-nav-btn .mnav-icon { line-height: 1; display: flex; align-items: center; justify-content: center; }
   .mobile-nav-btn .mnav-icon svg { 
-    width: 22px !important; 
-    height: 22px !important; 
+    width: 18px !important; 
+    height: 18px !important; 
   }
   .mobile-nav-btn:hover {
     color: rgba(255,255,255,0.9);
