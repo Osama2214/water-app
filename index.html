@@ -586,7 +586,7 @@ function ic(name, color, size) {
     display: none;
     position: fixed;
     bottom: 0; left: 0; right: 0;
-    z-index: 200;
+    z-index: 600;
     background: rgba(10,37,64,0.97);
     backdrop-filter: blur(14px);
     border-top: 1px solid rgba(0,180,216,0.2);
@@ -614,13 +614,18 @@ function ic(name, color, size) {
     font-size: clamp(0.42rem, 1.5vw, 0.58rem);
     font-weight: 600;
     cursor: pointer;
-    padding: 4px 0;
+    padding: 6px 2px;
     border-radius: 10px;
     transition: all 0.2s;
     flex: 1 1 0;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
     white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    position: relative;
+    z-index: 1;
   }
 
   .mobile-nav-btn .mnav-icon { line-height: 1; display: flex; align-items: center; justify-content: center; }
@@ -631,6 +636,17 @@ function ic(name, color, size) {
   .mobile-nav-btn:hover, .mobile-nav-btn.active {
     color: var(--cyan);
     background: rgba(0,180,216,0.1);
+  }
+
+  .mobile-nav-btn.active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--cyan), var(--blue-light));
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,180,216,0.35);
+  }
+
+  .mobile-nav-btn.active .mnav-icon svg {
+    stroke: #fff;
   }
 
   /* Hamburger (hidden on desktop) */
@@ -1240,25 +1256,24 @@ function ic(name, color, size) {
 <!-- Mobile Bottom Navigation -->
 <nav class="mobile-nav">
   <div class="mobile-nav-inner">
-    <button class="mobile-nav-btn active" onclick="showTabMobile('dashboard',this)">
+    <button class="mobile-nav-btn active" data-tab="dashboard" onclick="showTabMobile('dashboard',this)">
       <span class="mnav-icon ic"><i data-lucide="layout-dashboard"></i></span>الرئيسية
     </button>
-    <button class="mobile-nav-btn" onclick="showTabMobile('calc',this)">
+    <button class="mobile-nav-btn" data-tab="calc" onclick="showTabMobile('calc',this)">
       <span class="mnav-icon ic"><i data-lucide="calculator"></i></span>الحاسبة
     </button>
-    <button class="mobile-nav-btn" onclick="showTabMobile('tips',this)">
+    <button class="mobile-nav-btn" data-tab="tips" onclick="showTabMobile('tips',this)">
       <span class="mnav-icon ic"><i data-lucide="lightbulb"></i></span>النصائح
     </button>
-    <button class="mobile-nav-btn" onclick="showTabMobile('challenges',this)">
+    <button class="mobile-nav-btn" data-tab="challenges" onclick="showTabMobile('challenges',this)">
       <span class="mnav-icon ic"><i data-lucide="trophy"></i></span>التحديات
     </button>
-    <button class="mobile-nav-btn" onclick="showTabMobile('facts',this)">
+    <button class="mobile-nav-btn" data-tab="facts" onclick="showTabMobile('facts',this)">
       <span class="mnav-icon ic"><i data-lucide="globe"></i></span>حقائق
     </button>
-    <button class="mobile-nav-btn" onclick="showTabMobile('quiz',this)">
+    <button class="mobile-nav-btn" data-tab="quiz" onclick="showTabMobile('quiz',this)">
       <span class="mnav-icon ic"><i data-lucide="graduation-cap"></i></span>اختبار
     </button>
-
   </div>
 </nav>
 
@@ -1898,10 +1913,13 @@ function ic(name, color, size) {
 // ── TABS SLIDER ──────────────────────────────────
 function moveSlider(activeBtn) {
   const slider = document.getElementById('tabs-slider');
-  const bar = document.getElementById('tabs-bar');
-  if (!slider || !bar || !activeBtn) return;
-  slider.style.left = activeBtn.offsetLeft + 'px';
-  slider.style.width = activeBtn.offsetWidth + 'px';
+  const tabsEl = document.querySelector('.tabs');
+  if (!slider || !tabsEl || !activeBtn) return;
+  const tabsRect = tabsEl.getBoundingClientRect();
+  const btnRect  = activeBtn.getBoundingClientRect();
+  const leftPos  = btnRect.left - tabsRect.left;
+  slider.style.left  = leftPos + 'px';
+  slider.style.width = btnRect.width + 'px';
 }
 
 // ── WATER RIPPLE EFFECT ──────────────────────────
@@ -1922,6 +1940,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // ripple only on mobile nav and drawer, NOT tab-btn
   document.querySelectorAll('.mobile-nav-btn, .drawer-btn').forEach(btn => {
     btn.addEventListener('click', e => addRipple(btn, e));
+  });
+
+  // ── موثوقية الـ mobile nav buttons ──
+  // بدل الاعتماد على onclick inline بس، بنضيف event listeners مباشرة
+  document.querySelectorAll('.mobile-nav-btn[data-tab]').forEach(btn => {
+    const id = btn.getAttribute('data-tab');
+    btn.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      showTabMobile(id, btn);
+    }, { passive: false });
+    btn.addEventListener('click', () => {
+      showTabMobile(id, btn);
+    });
   });
 });
 
@@ -2612,6 +2643,12 @@ window.addEventListener('load', () => {
   calcTotal();
   // init slider position
   setTimeout(() => { const active = document.querySelector('.tab-btn.active'); moveSlider(active); }, 50);
+
+  // إعادة حساب الـ slider لما الشاشة تتغير (responsive fix)
+  window.addEventListener('resize', () => {
+    const active = document.querySelector('.tab-btn.active');
+    if (active) moveSlider(active);
+  });
   // init quiz
   startQuiz();
 
